@@ -1,1 +1,1 @@
-This is the data: hero 1 is 100 HP
+This is the data: hero 1 is 100 HP.

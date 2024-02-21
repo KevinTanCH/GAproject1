@@ -29,10 +29,13 @@ class Monster extends Character {
   constructor(hPoints, charLevel, name, skillLevel = 1) {
     super(hPoints, charLevel, name);
     this.skillLevel = skillLevel;
+    // Not sure if need skill level for monsters, stretch goals?
   }
 }
+
+let intCoins = 0;
 const hero1 = new Hero(100, 1, "Adam", 2);
-const monster1 = new Monster(100, 1, "slime", 1);
+const monster1 = new Monster(75, 1, "Slime", 1);
 let monsterTurnBaseDamage = 0;
 let heroTurnBaseDamage = 0;
 let gameContinue = true;
@@ -48,6 +51,8 @@ while (gameContinue) {
   console.log(monster1);
   if (monster1.hPoints < 1 || hero1.hPoints < 1) {
     gameContinue = false;
+    intCoins++;
+    console.log("Coins: " + intCoins);
     break;
   }
   // Hero turn
@@ -57,6 +62,8 @@ while (gameContinue) {
   console.log(monster1);
   if (monster1.hPoints < 1 || hero1.hPoints < 1) {
     gameContinue = false;
+    intCoins++;
+    console.log("Coins: " + intCoins);
     break;
   }
 }
