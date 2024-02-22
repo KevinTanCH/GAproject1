@@ -81,40 +81,37 @@ function checkCombatEnd() {
     return false;
   }
 }
-
 document.querySelector(".Button1").addEventListener("click", heroTurn);
+document.querySelector(".Button2").addEventListener("click", hideElements);
+document.querySelector(".Button3").addEventListener("click", showElements);
 // Game starts here
 monsterTurn();
+hideElements();
+function hideElements() {
+  let elements = document.getElementsByClassName("CombatGraphGrid");
+  for (let i = 0; i < elements.length; i++) {
+    elements[i].classList.add("hidden");
+  }
+  elements = document.getElementsByClassName("Button4");
+  for (let i = 0; i < elements.length; i++) {
+    elements[i].classList.add("hidden");
+  }
+}
+
+function showElements() {
+  let elements = document.getElementsByClassName("CombatGraphGrid");
+  for (let i = 0; i < elements.length; i++) {
+    elements[i].classList.remove("hidden");
+  }
+  elements = document.getElementsByClassName("Button4");
+  for (let i = 0; i < elements.length; i++) {
+    elements[i].classList.remove("hidden");
+  }
+}
 // while (boolGameContinue) {
 //   monsterTurn();
 // }
 
-/* 
-while (boolGameContinue) {
-  // Load stuff
-  console.log(hero1);
-  console.log(monster1);
-  // Monster turn
-  monsterTurnBaseDamage = Math.floor(Math.random() * 10);
-  hero1.damage(monsterTurnBaseDamage);
-  console.log(hero1);
-  console.log(monster1);
-  if (monster1.hPoints < 1 || hero1.hPoints < 1) {
-    boolGameContinue = false;
-    intCoins++;
-    console.log("Coins: " + intCoins);
-    break;
-  }
-  // Hero turn
-  heroTurnBaseDamage = Math.floor(Math.random() * 10) + hero1.skillLevel;
-  monster1.damage(heroTurnBaseDamage);
-  console.log(hero1);
-  console.log(monster1);
-  if (monster1.hPoints < 1 || hero1.hPoints < 1) {
-    boolGameContinue = false;
-    intCoins++;
-    console.log("Coins: " + intCoins);
-    break;
-  }
-}
-*/
+/* disable and enable user click*/
+function fnButtonDisable() {}
+function fnButtonEnable() {}
