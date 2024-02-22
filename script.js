@@ -36,11 +36,61 @@ class Monster extends Character {
 let intCoins = 0;
 const hero1 = new Hero(100, 1, "Adam", 2);
 const monster1 = new Monster(75, 1, "Slime", 1);
-let monsterTurnBaseDamage = 0;
-let heroTurnBaseDamage = 0;
-let gameContinue = true;
+let intMonsterTurnBaseDamage = 0;
+let intHeroTurnBaseDamage = 0;
+let boolCombatEnd = true;
+let boolGameContinue = true;
 
-while (gameContinue) {
+// Load stuff
+console.log("Load Game");
+console.log(hero1);
+console.log(monster1);
+
+function monsterTurn() {
+  console.log("Monster Turn");
+  if (checkCombatEnd()) {
+    return;
+  }
+  intMonsterTurnBaseDamage = Math.floor(Math.random() * 10);
+  hero1.damage(intMonsterTurnBaseDamage);
+  console.log(hero1);
+  console.log(monster1);
+}
+function heroTurn() {
+  console.log("Hero Turn");
+  if (checkCombatEnd()) {
+    return;
+  }
+  intHeroTurnBaseDamage = Math.floor(Math.random() * 10) + hero1.skillLevel;
+  monster1.damage(intHeroTurnBaseDamage);
+  console.log(hero1);
+  console.log(monster1);
+  monsterTurn();
+}
+function checkCombatEnd() {
+  if (monster1.hPoints < 1) {
+    boolGameContinue = false;
+    intCoins++;
+    console.log("Coins: " + intCoins);
+    return true;
+  } else if (hero1.hPoints < 1) {
+    boolGameContinue = false;
+    console.log("Game over");
+    return true;
+  } else {
+    return false;
+  }
+}
+
+document.querySelector(".Button1").addEventListener("click", heroTurn);
+// Game starts here
+monsterTurn();
+// while (boolGameContinue) {
+//   monsterTurn();
+// }
+
+/* 
+while (boolGameContinue) {
   // Load stuff
   console.log(hero1);
   console.log(monster1);
@@ -50,7 +100,7 @@ while (gameContinue) {
   console.log(hero1);
   console.log(monster1);
   if (monster1.hPoints < 1 || hero1.hPoints < 1) {
-    gameContinue = false;
+    boolGameContinue = false;
     intCoins++;
     console.log("Coins: " + intCoins);
     break;
@@ -61,9 +111,10 @@ while (gameContinue) {
   console.log(hero1);
   console.log(monster1);
   if (monster1.hPoints < 1 || hero1.hPoints < 1) {
-    gameContinue = false;
+    boolGameContinue = false;
     intCoins++;
     console.log("Coins: " + intCoins);
     break;
   }
 }
+*/

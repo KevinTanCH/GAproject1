@@ -1,10 +1,12 @@
 body {
   background-color: grey;
 }
-.CombatGUI {
+.CombatGraphGrid {
   display: grid;
   justify-items: center;
   align-items: center;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(4, 1fr);
   background-color: greenyellow;
 }
 .ButtonBox {
