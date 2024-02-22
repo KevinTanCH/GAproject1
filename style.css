@@ -1,3 +1,25 @@
 body {
-  background-color: black;
+  background-color: grey;
+}
+.CombatGUI {
+  display: grid;
+  justify-items: center;
+  align-items: center;
+  background-color: greenyellow;
+}
+.ButtonBox {
+  display: grid;
+  justify-items: center;
+  align-items: center;
+  grid-template-columns: repeat(4, 1fr);
+  /* grid-template-rows: masonry; */
+}
+
+.triangle-up {
+  width: 0;
+  height: 0;
+  border-left: 25px solid transparent;
+  border-right: 25px solid transparent;
+  border-bottom: 50px solid;
+  border-bottom-color: grey;
 }
