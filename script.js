@@ -34,7 +34,7 @@ class Character {
     this.key = value;
   }
   getKeyValue(key, value) {
-    this.key = value;
+    // value;
   }
   damage(amount) {
     this.hPoints -= amount;
@@ -179,7 +179,6 @@ function fnCheckCombatEnd() {
   } else {
     return false;
   }
-  return;
 }
 function fnPotionHeal() {
   console.log("Potion Heal");
@@ -220,7 +219,6 @@ function fnTownHeal() {
     console.log("Coins: " + intCoins);
     return;
   }
-  return;
 }
 function fnTownLevelUp() {
   if (intCoins > 0) {
@@ -248,7 +246,6 @@ function fnBuyItems() {
     console.log("Coins: " + intCoins);
     return;
   }
-  return;
 }
 function fnStartCombat() {
   console.log("Combat start");
@@ -328,7 +325,6 @@ function fnHideElements(elemToHide) {
     }
     return;
   }
-  return;
 }
 
 function fnShowElements(elemToShow) {
@@ -342,5 +338,4 @@ function fnShowElements(elemToShow) {
     }
     return;
   }
-  return;
 }
