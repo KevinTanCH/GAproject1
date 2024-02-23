@@ -1,7 +1,6 @@
 body {
   background-color: grey;
-  padding: 0;
-  margin: 0;
+  margin: auto;
 }
 .CombatGraphGrid {
   background-color: greenyellow;
@@ -23,7 +22,7 @@ body {
   justify-items: center;
   align-items: center;
 }
-.ButtonBox {
+.CombatButtonBox {
   background-color: lightblue;
   display: grid;
   justify-items: center;
@@ -46,7 +45,28 @@ body {
   border-radius: 50%;
   background-color: red;
 }
-
+.TownMenu {
+  display: grid;
+  justify-items: center;
+  align-items: center;
+  grid-template-rows: repeat(4, 1fr);
+}
+.StartMenu {
+  display: grid;
+  justify-items: center;
+  align-items: center;
+  grid-template-rows: repeat(4, 1fr);
+}
+.EquipmentBuyMenu {
+  display: grid;
+  justify-items: center;
+  align-items: center;
+}
+.EquipmentManageMenu {
+  display: grid;
+  justify-items: center;
+  align-items: center;
+}
 .hidden {
   display: none;
 }

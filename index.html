@@ -9,44 +9,77 @@
   </head>
   <body>
     <!-- CombadModeUI -->
-    <div class="CombatGraphGrid">
-      <div class="CombatGridRow Row1">
-        <div class="GameTile CGC1">
-          <div>Player</div>
-          <div class="triangle-up"></div>
+    <div class="CombadModeUI">
+      <div class="CombatGraphGrid">
+        <div class="CombatGridRow Row1">
+          <div class="GameTile CGC1">
+            <div>Player</div>
+            <div class="triangle-up"></div>
+          </div>
+          <div class="GameTile CGC2"></div>
+          <div class="GameTile CGC3"></div>
+          <div class="GameTile CGC4">
+            <div>Monster</div>
+            <div class="circle"></div>
+          </div>
         </div>
-        <div class="GameTile CGC2"></div>
-        <div class="GameTile CGC3"></div>
-        <div class="GameTile CGC4">
-          <div>Monster</div>
-          <div class="circle"></div>
+        <div class="CombatGridRow Row2">
+          <div class="GameTile CGC1"></div>
+          <div class="GameTile CGC2"></div>
+          <div class="GameTile CGC3"></div>
+          <div class="GameTile CGC4"></div>
+        </div>
+        <div class="CombatGridRow Row3">
+          <div class="GameTile CGC1"></div>
+          <div class="GameTile CGC2"></div>
+          <div class="GameTile CGC3"></div>
+          <div class="GameTile CGC4"></div>
+        </div>
+        <div class="CombatGridRow Row3">
+          <div class="GameTile CGC1"></div>
+          <div class="GameTile CGC2"></div>
+          <div class="GameTile CGC3"></div>
+          <div class="GameTile CGC4"></div>
         </div>
       </div>
-      <div class="CombatGridRow Row2">
-        <div class="GameTile CGC1"></div>
-        <div class="GameTile CGC2"></div>
-        <div class="GameTile CGC3"></div>
-        <div class="GameTile CGC4"></div>
-      </div>
-      <div class="CombatGridRow Row3">
-        <div class="GameTile CGC1"></div>
-        <div class="GameTile CGC2"></div>
-        <div class="GameTile CGC3"></div>
-        <div class="GameTile CGC4"></div>
-      </div>
-      <div class="CombatGridRow Row3">
-        <div class="GameTile CGC1"></div>
-        <div class="GameTile CGC2"></div>
-        <div class="GameTile CGC3"></div>
-        <div class="GameTile CGC4"></div>
+      <div class="ComabatConsoleText">Combat Console text here</div>
+      <div class="CombatButtonBox">
+        <button class="Button1">Button 1</button>
+        <button class="Button2">Button 2</button>
+        <button class="Button3">Button 3</button>
+        <button class="Button4">Button 4</button>
       </div>
     </div>
-    <div class="ConsoleText">Console text here</div>
-    <div class="ButtonBox">
-      <button class="ActiveButton Button1">Button 1</button>
-      <button class="ActiveButton Button2">Button 2</button>
-      <button class="ActiveButton Button3">Button 3</button>
-      <button class="ActiveButton Button4">Button 4</button>
+    <!-- TownMode -->
+    <div class="TownModeUI">
+      <div class="TownMenu">
+        <button class="">Buy Consumables</button>
+        <button class="">Buy Equipment</button>
+        <button class="">Manage Items</button>
+        <button class="">Heal</button>
+        <button class="">LevelUp</button>
+        <button class="">To Adventure!</button>
+      </div>
+      <!-- EquipmentBuyMenu -->
+      <div class="EquipmentBuyMenu">
+        <div>
+          <button class="ActiveButton">Back</button>
+        </div>
+      </div>
+      <!-- EquipmentManageMenu -->
+      <div class="EquipmentManageMenu">
+        <div>
+          <button class="">Back</button>
+        </div>
+      </div>
+      <div class="TownConsoleText">Town Console text here</div>
+    </div>
+    <!-- StartMenu -->
+    <div class="StartMenu">
+      <div class="StartButtonBox">
+        <button class="ActiveButton StartButton">Start New Game</button>
+        <!-- <button class="ActiveButton LoadButton">Load Save Game</button> -->
+      </div>
     </div>
     <!-- Scripts here -->
     <script src="script.js" charset="utf-8"></script>

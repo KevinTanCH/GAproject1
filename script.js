@@ -84,15 +84,12 @@ function checkCombatEnd() {
 document.querySelector(".Button1").addEventListener("click", heroTurn);
 document.querySelector(".Button2").addEventListener("click", hideElements);
 document.querySelector(".Button3").addEventListener("click", showElements);
+document.querySelector(".Button4").addEventListener("click", showElements);
 // Game starts here
-monsterTurn();
-hideElements();
-function hideElements() {
-  let elements = document.getElementsByClassName("CombatGraphGrid");
-  for (let i = 0; i < elements.length; i++) {
-    elements[i].classList.add("hidden");
-  }
-  elements = document.getElementsByClassName("Button4");
+// monsterTurn();
+hideElements("CombadModeUI");
+function hideElements(elemToHide) {
+  let elements = document.getElementsByClassName(elemToHide);
   for (let i = 0; i < elements.length; i++) {
     elements[i].classList.add("hidden");
   }
@@ -100,10 +97,6 @@ function hideElements() {
 
 function showElements() {
   let elements = document.getElementsByClassName("CombatGraphGrid");
-  for (let i = 0; i < elements.length; i++) {
-    elements[i].classList.remove("hidden");
-  }
-  elements = document.getElementsByClassName("Button4");
   for (let i = 0; i < elements.length; i++) {
     elements[i].classList.remove("hidden");
   }
