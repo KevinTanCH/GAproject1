@@ -4,44 +4,45 @@ body {
   margin: 0;
 }
 .CombatGraphGrid {
-  display: grid;
-  justify-items: center;
-  align-items: center;
-  justify-content: center;
-  align-content: center;
-  grid-template-columns: repeat(4, 1fr);
-  grid-template-rows: repeat(4, 1fr);
-  gap: 0.1fr;
   background-color: greenyellow;
-  width: 400px;
-  height: 400px;
+  display: grid;
+  grid-template-rows: repeat(4, 1fr);
+  grid-gap: 1vw;
+  padding: 1vw;
+  height: 80vw;
+}
+.CombatGridRow {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-gap: 1vw;
 }
 .GameTile {
-  width: 10%;
-  height: 10%;
-  border: 1px solid;
-  box-sizing: border-box;
+  background-color: green;
+  display: grid;
+  padding: 1vw 1vw 1vw 1vw;
+  justify-items: center;
+  align-items: center;
 }
 .ButtonBox {
+  background-color: lightblue;
   display: grid;
   justify-items: center;
   align-items: center;
   grid-template-columns: repeat(4, 1fr);
-  /* grid-template-rows: masonry; */
 }
 
 .triangle-up {
   width: 0;
   height: 0;
-  border-left: 25px solid transparent;
-  border-right: 25px solid transparent;
-  border-bottom: 50px solid;
+  border-left: 5vw solid transparent;
+  border-right: 5vw solid transparent;
+  border-bottom: 10vw solid;
   border-bottom-color: steelblue;
 }
 
 .circle {
-  height: 50px;
-  width: 50px;
+  height: 10vw;
+  width: 10vw;
   border-radius: 50%;
   background-color: red;
 }
