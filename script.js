@@ -1,4 +1,4 @@
-// Classes here
+/*----- Classes -----*/
 class Items {
   constructor(name = "?name?", cost = 1) {
     this.name = name;
@@ -79,6 +79,8 @@ class Monster extends Character {
     this.skillLevel = arrMonsterStat[4];
   }
 }
+
+/*----- Variables -----*/
 // Monster types here
 const arrMonstSlime = [25, 25, 1, "Slime", 1];
 const arrMonstSkele = [50, 50, 2, "Skeleton", 1];
@@ -90,11 +92,11 @@ const arrMonstList = [
   arrMonstMino,
   arrMonstCyclo,
 ];
-
-//Variables
+// Global Variables
 let boolDebugMode = false;
 let intCoins = 10;
 let intDangerLevel = 0;
+let intTownModeCounter = 0;
 const kvpConsumables = { potsHP: 0 };
 const kvpWeapons = { bow: 0 };
 const kvpArmour = { Gambeson: 0, Chainmail: 0, Plate: 0 };
@@ -103,11 +105,36 @@ let intHeroTurnBaseDamage = 0;
 let boolCombatEnd = true;
 let boolGameContinue = true;
 
-// Instances
+/*----- Instances -----*/
 const hero1 = new Hero(100, 100, 1, "Adam", 2);
 const monster1 = new Monster(...arrMonstSlime);
 
-// Funtions
+/*----- event listeners -----*/
+// CombatButtons
+document.querySelector(".Button1").addEventListener("click", fnHeroTurn);
+document.querySelector(".Button2").addEventListener("click", fnPotionHeal);
+document.querySelector(".Button3").addEventListener("click", fnHideElements);
+document.querySelector(".Button4").addEventListener("click", fnShowElements);
+//ContinueButtons
+document.querySelector(".BtnToTown").addEventListener("click", fnStartTown);
+document
+  .querySelector(".BtnContinuePotionHeal")
+  .addEventListener("click", fnPotionHeal);
+document
+  .querySelector(".BtnContinueCombat")
+  .addEventListener("click", fnStartCombat);
+// TownButtons
+document.querySelector(".BtnBuyPotsHP").addEventListener("click", fnBuyItems);
+document.querySelector(".BtnTownHeal").addEventListener("click", fnTownHeal);
+document.querySelector(".BtnLevelUp").addEventListener("click", fnTownLevelUp);
+document
+  .querySelector(".BtnStartCombat")
+  .addEventListener("click", fnStartCombat);
+// StartMenuButtons
+document.querySelector(".BtnStartGame").addEventListener("click", fnStartTown);
+document.querySelector(".BtnDebugGame").addEventListener("click", fnDebugMode);
+
+/*----- functions -----*/
 function fnMonsterTurn() {
   console.log("Monster Turn");
   if (fnCheckCombatEnd()) {
@@ -140,7 +167,7 @@ function fnCheckCombatEnd() {
   if (monster1.hPoints < 1) {
     boolGameContinue = false;
     boolCombatEnd = false;
-    intCoins += 5 * intDangerLevel;
+    intCoins += 3 * intDangerLevel;
     console.log("More Coins: " + intCoins);
     fnContinueMode();
     return true;
@@ -240,41 +267,22 @@ function fnStartCombat() {
   return;
 }
 
-/* disable and enable user click*/
-// function fnButtonDisable() {}
-// function fnButtonEnable() {}
-
-// Load stuff
-console.log("Load Game");
-console.log(hero1);
-console.log(monster1);
-console.log("Game Loaded");
-
-// CombatButtons
-document.querySelector(".Button1").addEventListener("click", fnHeroTurn);
-document.querySelector(".Button2").addEventListener("click", fnPotionHeal);
-document.querySelector(".Button3").addEventListener("click", fnHideElements);
-document.querySelector(".Button4").addEventListener("click", fnShowElements);
-//ContinueButtons
-document.querySelector(".BtnToTown").addEventListener("click", fnStartTown);
-document
-  .querySelector(".BtnContinuePotionHeal")
-  .addEventListener("click", fnPotionHeal);
-document
-  .querySelector(".BtnContinueCombat")
-  .addEventListener("click", fnStartCombat);
-// TownButtons
-document.querySelector(".BtnBuyPotsHP").addEventListener("click", fnBuyItems);
-document.querySelector(".BtnTownHeal").addEventListener("click", fnTownHeal);
-document.querySelector(".BtnLevelUp").addEventListener("click", fnTownLevelUp);
-document
-  .querySelector(".BtnStartCombat")
-  .addEventListener("click", fnStartCombat);
-// StartMenuButtons
-document.querySelector(".BtnStartGame").addEventListener("click", fnStartTown);
-document.querySelector(".BtnDebugGame").addEventListener("click", fnDebugMode);
-
 // GAME STARTS HERE
+function initialize() {
+  console.log("Load Game");
+  console.log(hero1);
+  console.log(monster1);
+  console.log("Game Loaded");
+  fnHideElements("CombadModeUI");
+  fnHideElements("ContinueMenuUI");
+  fnHideElements("TownModeUI");
+  if (boolDebugMode) {
+    fnShowElements("CombadModeUI");
+    fnShowElements("ContinueMenuUI");
+    fnShowElements("TownModeUI");
+  }
+}
+initialize();
 // window.onload = function () {
 //   if (localStorage.getItem("hasCodeRunBefore") === null) {
 //     /** Your code here. **/
@@ -282,11 +290,10 @@ document.querySelector(".BtnDebugGame").addEventListener("click", fnDebugMode);
 //     localStorage.setItem("hasCodeRunBefore", true);
 //   }
 // };
-// if (boolDebugMode) {
-//   fnShowElements("CombadModeUI");
-//   fnShowElements("ContinueMenuUI");
-//   fnShowElements("TownModeUI");
-// }
+
+/* disable and enable user click if required*/
+// function fnButtonDisable() {}
+// function fnButtonEnable() {}
 
 function fnDebugMode() {
   // Reveals UI
