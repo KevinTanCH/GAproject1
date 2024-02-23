@@ -2,13 +2,18 @@ body {
   background-color: grey;
   margin: auto;
 }
+.CombadModeUI {
+  display: grid;
+  justify-items: center;
+  align-items: center;
+}
 .CombatGraphGrid {
   background-color: greenyellow;
   display: grid;
   grid-template-rows: repeat(4, 1fr);
   grid-gap: 1vw;
   padding: 1vw;
-  height: 80vw;
+  height: 60vh;
 }
 .CombatGridRow {
   display: grid;
@@ -33,29 +38,27 @@ body {
 .triangle-up {
   width: 0;
   height: 0;
-  border-left: 5vw solid transparent;
-  border-right: 5vw solid transparent;
-  border-bottom: 10vw solid;
+  border-left: 5vh solid transparent;
+  border-right: 5vh solid transparent;
+  border-bottom: 10vh solid;
   border-bottom-color: steelblue;
 }
-
 .circle {
-  height: 10vw;
-  width: 10vw;
+  height: 10vh;
+  width: 10vh;
   border-radius: 50%;
   background-color: red;
+}
+.TownModeUI {
+  display: grid;
+  justify-items: center;
+  align-items: center;
+  background-color: burlywood;
 }
 .TownMenu {
   display: grid;
   justify-items: center;
   align-items: center;
-  grid-template-rows: repeat(4, 1fr);
-}
-.StartMenu {
-  display: grid;
-  justify-items: center;
-  align-items: center;
-  grid-template-rows: repeat(4, 1fr);
 }
 .EquipmentBuyMenu {
   display: grid;
@@ -66,6 +69,24 @@ body {
   display: grid;
   justify-items: center;
   align-items: center;
+}
+.ContinueMenuUI {
+  display: grid;
+  justify-items: center;
+  align-items: center;
+  background-color: brown;
+}
+.ContinueMenuButtonBox {
+  display: grid;
+}
+.StartMenuUI {
+  display: grid;
+  justify-items: center;
+  align-items: center;
+  background-color: darkgrey;
+}
+.StartButtonBox {
+  display: grid;
 }
 .hidden {
   display: none;

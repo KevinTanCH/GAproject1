@@ -23,13 +23,18 @@ class Weapons extends Items {
   }
 }
 const potionHP = new Consumables("HP potion", 2);
-
 class Character {
-  constructor(hPoints = 50, maxHP = 50, charLevel = 1, name = "?name?") {
+  constructor(hPoints = 1, maxHP = 1, charLevel = 1, name = "?name?") {
     (this.hPoints = hPoints),
       (this.maxHP = maxHP),
       (this.charLevel = charLevel),
       (this.name = name);
+  }
+  setKeyValue(key, value) {
+    this.key = value;
+  }
+  getKeyValue(key, value) {
+    this.key = value;
   }
   damage(amount) {
     this.hPoints -= amount;
@@ -40,6 +45,9 @@ class Character {
     if (this.hPoints + amount < this.maxHP) {
       this.hPoints += amount;
       console.log(this.name, amount, this.hPoints);
+      return this.hPoints;
+    } else if (this.hPoints === this.maxHP) {
+      console.log(this.name, 0, this.hPoints);
       return this.hPoints;
     } else {
       this.hPoints = this.maxHP;
@@ -53,6 +61,9 @@ class Hero extends Character {
     super(hPoints, maxHP, charLevel, name);
     this.skillLevel = skillLevel;
   }
+  levelUp() {
+    this.skillLevel++;
+  }
 }
 class Monster extends Character {
   constructor(hPoints, maxHP, charLevel, name, skillLevel = 1) {
@@ -60,19 +71,41 @@ class Monster extends Character {
     this.skillLevel = skillLevel;
     // Not sure if need skill level for monsters, stretch goals?
   }
+  changeMonster(arrMonsterStat) {
+    this.hPoints = arrMonsterStat[0];
+    this.maxHP = arrMonsterStat[1];
+    this.charLevel = arrMonsterStat[2];
+    this.name = arrMonsterStat[3];
+    this.skillLevel = arrMonsterStat[4];
+  }
 }
+// Monster types here
+const arrMonstSlime = [25, 25, 1, "Slime", 1];
+const arrMonstSkele = [50, 50, 2, "Skeleton", 1];
+const arrMonstMino = [100, 100, 3, "Minotaur", 3];
+const arrMonstCyclo = [200, 200, 5, "Cyclops", 10];
+const arrMonstList = [
+  arrMonstSlime,
+  arrMonstSkele,
+  arrMonstMino,
+  arrMonstCyclo,
+];
 
 //Variables
+let boolDebugMode = false;
 let intCoins = 10;
+let intDangerLevel = 0;
 const kvpConsumables = { potsHP: 0 };
 const kvpWeapons = { bow: 0 };
 const kvpArmour = { Gambeson: 0, Chainmail: 0, Plate: 0 };
-const hero1 = new Hero(100, 100, 1, "Adam", 2);
-const monster1 = new Monster(75, 75, 1, "Slime", 1);
 let intMonsterTurnBaseDamage = 0;
 let intHeroTurnBaseDamage = 0;
 let boolCombatEnd = true;
 let boolGameContinue = true;
+
+// Instances
+const hero1 = new Hero(100, 100, 1, "Adam", 2);
+const monster1 = new Monster(...arrMonstSlime);
 
 // Funtions
 function fnMonsterTurn() {
@@ -80,7 +113,8 @@ function fnMonsterTurn() {
   if (fnCheckCombatEnd()) {
     return;
   }
-  intMonsterTurnBaseDamage = Math.floor(Math.random() * 10);
+  intMonsterTurnBaseDamage =
+    Math.round(Math.random() * 10) + monster1.skillLevel;
   hero1.damage(intMonsterTurnBaseDamage);
   console.log(hero1);
   console.log(monster1);
@@ -91,21 +125,24 @@ function fnHeroTurn() {
   if (fnCheckCombatEnd()) {
     return;
   }
-  intHeroTurnBaseDamage = Math.floor(Math.random() * 10) + hero1.skillLevel;
+  intHeroTurnBaseDamage = Math.round(Math.random() * 10) + hero1.skillLevel;
   monster1.damage(intHeroTurnBaseDamage);
   console.log(hero1);
   console.log(monster1);
   if (fnCheckCombatEnd()) {
     return;
+  } else {
+    fnMonsterTurn();
   }
-  fnMonsterTurn();
+  return;
 }
 function fnCheckCombatEnd() {
   if (monster1.hPoints < 1) {
     boolGameContinue = false;
     boolCombatEnd = false;
-    intCoins++;
-    console.log("Coins: " + intCoins);
+    intCoins += 5 * intDangerLevel;
+    console.log("More Coins: " + intCoins);
+    fnContinueMode();
     return true;
   } else if (hero1.hPoints < 1) {
     boolGameContinue = false;
@@ -115,13 +152,63 @@ function fnCheckCombatEnd() {
   } else {
     return false;
   }
+  return;
+}
+function fnPotionHeal() {
+  console.log("Potion Heal");
+  if (kvpConsumables.potsHP > 0) {
+    hero1.heal(50);
+    return;
+  }
+  return;
 }
 
-function fnTownHeal() {
-  intCoins--;
-  hero1.heal(50);
-  console.log("coints: " + intCoins);
+function fnContinueMode() {
+  fnHideElements("CombatModeUI");
+  fnShowElements("ContinueMenuUI");
   return;
+}
+
+function fnStartTown() {
+  console.log("Combat Ends, start town");
+  boolCombatEnd = true;
+  intDangerLevel = 0;
+  console.log("Danger Level: " + intDangerLevel);
+  fnHideElements("StartMenuUI");
+  fnHideElements("ContinueMenuUI");
+  fnShowElements("TownModeUI");
+  return;
+}
+function fnTownHeal() {
+  console.log("Town heal");
+  if (hero1.hPoints === hero1.maxHP) {
+    console.log("HP already MAX");
+    return;
+  } else if (intCoins < 1) {
+    console.log("No Coins: " + intCoins);
+    return;
+  } else {
+    intCoins--;
+    hero1.heal(50);
+    console.log("Coins: " + intCoins);
+    return;
+  }
+  return;
+}
+function fnTownLevelUp() {
+  if (intCoins > 0) {
+    console.log("Town level up!");
+    intCoins--;
+    hero1.levelUp();
+    console.log(hero1);
+    console.log("Coins: " + intCoins);
+    return;
+  } else if (intCoins < 1) {
+    console.log("No Coins: " + intCoins);
+    return;
+  } else {
+    return;
+  }
 }
 function fnBuyItems() {
   if (intCoins < potionHP.cost) {
@@ -131,54 +218,122 @@ function fnBuyItems() {
     intCoins = intCoins - potionHP.cost;
     kvpConsumables.potsHP++;
     console.log(kvpConsumables);
-    console.log("coints: " + intCoins);
+    console.log("Coins: " + intCoins);
     return;
   }
+  return;
 }
-
 function fnStartCombat() {
-  boolCombatEnd = true;
+  console.log("Combat start");
+  fnHideElements("TownModeUI");
+  fnShowElements("CombadModeUI");
+  boolCombatEnd = false;
+  intDangerLevel++;
+  console.log("Danger Level: " + intDangerLevel);
+  if (intDangerLevel < 5) {
+    monster1.changeMonster(arrMonstList[intDangerLevel - 1]);
+  } else {
+    monster1.changeMonster(arrMonstCyclo);
+  }
   monster1.heal(monster1.maxHP);
   fnMonsterTurn();
   return;
 }
 
 /* disable and enable user click*/
-function fnButtonDisable() {}
-function fnButtonEnable() {}
+// function fnButtonDisable() {}
+// function fnButtonEnable() {}
 
 // Load stuff
 console.log("Load Game");
 console.log(hero1);
 console.log(monster1);
+console.log("Game Loaded");
 
 // CombatButtons
 document.querySelector(".Button1").addEventListener("click", fnHeroTurn);
-document.querySelector(".Button2").addEventListener("click", fnHideElements);
-document.querySelector(".Button3").addEventListener("click", fnShowElements);
+document.querySelector(".Button2").addEventListener("click", fnPotionHeal);
+document.querySelector(".Button3").addEventListener("click", fnHideElements);
 document.querySelector(".Button4").addEventListener("click", fnShowElements);
+//ContinueButtons
+document.querySelector(".BtnToTown").addEventListener("click", fnStartTown);
+document
+  .querySelector(".BtnContinuePotionHeal")
+  .addEventListener("click", fnPotionHeal);
+document
+  .querySelector(".BtnContinueCombat")
+  .addEventListener("click", fnStartCombat);
 // TownButtons
-document.querySelector(".BtnTownHeal").addEventListener("click", fnTownHeal);
 document.querySelector(".BtnBuyPotsHP").addEventListener("click", fnBuyItems);
-document.querySelector(".StartCombat").addEventListener("click", fnStartCombat);
+document.querySelector(".BtnTownHeal").addEventListener("click", fnTownHeal);
+document.querySelector(".BtnLevelUp").addEventListener("click", fnTownLevelUp);
+document
+  .querySelector(".BtnStartCombat")
+  .addEventListener("click", fnStartCombat);
 // StartMenuButtons
+document.querySelector(".BtnStartGame").addEventListener("click", fnStartTown);
+document.querySelector(".BtnDebugGame").addEventListener("click", fnDebugMode);
 
-// Game starts here
-// fnHideElements("CombadModeUI");
-// fnMonsterTurn();
+// GAME STARTS HERE
+// window.onload = function () {
+//   if (localStorage.getItem("hasCodeRunBefore") === null) {
+//     /** Your code here. **/
+
+//     localStorage.setItem("hasCodeRunBefore", true);
+//   }
+// };
+// if (boolDebugMode) {
+//   fnShowElements("CombadModeUI");
+//   fnShowElements("ContinueMenuUI");
+//   fnShowElements("TownModeUI");
+// }
+
+function fnDebugMode() {
+  // Reveals UI
+  boolDebugMode = true;
+  let elements = document.getElementsByClassName("StartMenuUI");
+  for (let i = 0; i < elements.length; i++) {
+    elements[i].classList.remove("hidden");
+  }
+  elements = document.getElementsByClassName("TownModeUI");
+  for (let i = 0; i < elements.length; i++) {
+    elements[i].classList.remove("hidden");
+  }
+  elements = document.getElementsByClassName("ContinueMenuUI");
+  for (let i = 0; i < elements.length; i++) {
+    elements[i].classList.remove("hidden");
+  }
+  elements = document.getElementsByClassName("CombadModeUI");
+  for (let i = 0; i < elements.length; i++) {
+    elements[i].classList.remove("hidden");
+  }
+  return;
+}
 
 function fnHideElements(elemToHide) {
-  let elements = document.getElementsByClassName(elemToHide);
-  for (let i = 0; i < elements.length; i++) {
-    elements[i].classList.add("hidden");
+  console.log("Hiding " + elemToHide);
+  if (boolDebugMode) {
+    return;
+  } else {
+    let elements = document.getElementsByClassName(elemToHide);
+    for (let i = 0; i < elements.length; i++) {
+      elements[i].classList.add("hidden");
+    }
+    return;
   }
   return;
 }
 
 function fnShowElements(elemToShow) {
-  let elements = document.getElementsByClassName(elemToShow);
-  for (let i = 0; i < elements.length; i++) {
-    elements[i].classList.remove("hidden");
+  console.log("Showing " + elemToShow);
+  if (boolDebugMode) {
+    return;
+  } else {
+    let elements = document.getElementsByClassName(elemToShow);
+    for (let i = 0; i < elements.length; i++) {
+      elements[i].classList.remove("hidden");
+    }
+    return;
   }
   return;
 }

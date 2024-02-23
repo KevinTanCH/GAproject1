@@ -9,7 +9,7 @@
   </head>
   <body>
     <!-- CombadModeUI -->
-    <div class="CombadModeUI">
+    <div class="CombadModeUI hidden">
       <div class="CombatGraphGrid">
         <div class="CombatGridRow Row1">
           <div class="GameTile CGC1">
@@ -42,32 +42,42 @@
           <div class="GameTile CGC4"></div>
         </div>
       </div>
-      <div class="ComabatConsoleText">Combat Console text here</div>
       <div class="CombatButtonBox">
-        <button class="Button1">Button 1</button>
-        <button class="Button2">Button 2</button>
+        <button class="Button1">Button 1 Attack</button>
+        <button class="Button2">Button 2 Use HP Poiton</button>
         <button class="Button3">Button 3</button>
         <button class="Button4">Button 4</button>
       </div>
+      <div class="ComabatConsoleText">Combat Console text here</div>
+    </div>
+    <!-- ContinueMenu -->
+    <div class="ContinueMenuUI hidden">
+      <div class="ContinueMenuButtonBox">
+        <button class="BtnToTown">Back to Town</button>
+        <button class="BtnContinuePotionHeal">Use HP Poiton</button>
+        <button class="BtnContinueCombat">Continue Adventure!</button>
+      </div>
+      <div class="ContinueConsoleText">Continue Console text here</div>
     </div>
     <!-- TownMode -->
-    <div class="TownModeUI">
+    <div class="TownModeUI hidden">
       <div class="TownMenu">
         <button class="BtnBuyPotsHP">Buy Consumables</button>
         <button class="">Buy Equipment</button>
         <button class="">Manage Items</button>
         <button class="BtnTownHeal">Heal</button>
         <button class="BtnLevelUp">LevelUp</button>
-        <button class="StartCombat">To Adventure!</button>
+        <button class="BtnSave">Save Game</button>
+        <button class="BtnStartCombat">To Adventure!</button>
       </div>
       <!-- EquipmentBuyMenu -->
-      <div class="EquipmentBuyMenu">
+      <div class="EquipmentBuyMenu hidden">
         <div>
           <button class="">Back</button>
         </div>
       </div>
       <!-- EquipmentManageMenu -->
-      <div class="EquipmentManageMenu">
+      <div class="EquipmentManageMenu hidden">
         <div>
           <button class="">Back</button>
         </div>
@@ -75,11 +85,13 @@
       <div class="TownConsoleText">Town Console text here</div>
     </div>
     <!-- StartMenu -->
-    <div class="StartMenu">
+    <div class="StartMenuUI">
       <div class="StartButtonBox">
-        <button class="StartButton">Start New Game</button>
-        <!-- <button class="LoadButton">Load Save Game</button> -->
+        <button class="BtnStartGame">Start New Game</button>
+        <button class="BtnLoadGame">Load Save Game</button>
+        <button class="BtnDebugGame">Debug Game</button>
       </div>
+      <div class="StartMenuConsole">Start Menu Console text here</div>
     </div>
     <!-- Scripts here -->
     <script src="script.js" charset="utf-8"></script>
