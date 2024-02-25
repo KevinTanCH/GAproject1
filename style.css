@@ -13,7 +13,8 @@ body {
   grid-template-rows: repeat(4, 1fr);
   grid-gap: 1vw;
   padding: 1vw;
-  height: 60vh;
+  height: 15vh;
+  /* height: 60vh; */
 }
 .CombatGridRow {
   display: grid;
@@ -34,7 +35,11 @@ body {
   align-items: center;
   grid-template-columns: repeat(4, 1fr);
 }
-
+.ComabatConsoleText {
+  display: grid;
+  justify-items: center;
+  align-items: center;
+}
 .triangle-up {
   width: 0;
   height: 0;
@@ -74,7 +79,7 @@ body {
   display: grid;
   justify-items: center;
   align-items: center;
-  background-color: brown;
+  background-color: darkgoldenrod;
 }
 .ContinueMenuButtonBox {
   display: grid;
@@ -87,6 +92,13 @@ body {
 }
 .StartButtonBox {
   display: grid;
+}
+.GameOverUI {
+  display: grid;
+  justify-items: center;
+  align-items: center;
+  background-color: black;
+  color: white;
 }
 .hidden {
   display: none;
