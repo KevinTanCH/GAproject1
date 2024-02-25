@@ -33,8 +33,8 @@ class Character {
   setKeyValue(key, value) {
     this.key = value;
   }
-  getKeyValue(key, value) {
-    // value;
+  getKeyValue(key) {
+    // return this.key;
   }
   damage(amount) {
     this.hPoints -= amount;
@@ -131,7 +131,7 @@ document
   .querySelector(".BtnStartCombat")
   .addEventListener("click", fnStartCombat);
 // StartMenuButtons
-document.querySelector(".BtnStartGame").addEventListener("click", fnStartTown);
+document.querySelector(".BtnStartGame").addEventListener("click", fnStartGame);
 document.querySelector(".BtnDebugGame").addEventListener("click", fnDebugMode);
 
 /*----- functions -----*/
@@ -250,7 +250,7 @@ function fnBuyItems() {
 function fnStartCombat() {
   console.log("Combat start");
   fnHideElements("TownModeUI");
-  fnShowElements("CombadModeUI");
+  fnShowElements("CombatModeUI");
   boolCombatEnd = false;
   intDangerLevel++;
   console.log("Danger Level: " + intDangerLevel);
@@ -263,6 +263,15 @@ function fnStartCombat() {
   fnMonsterTurn();
   return;
 }
+function fnStartGame() {
+  console.log("Start town");
+  boolCombatEnd = true;
+  intDangerLevel = 0;
+  console.log("Danger Level: " + intDangerLevel);
+  fnHideElements("StartMenuUI");
+  fnShowElements("TownModeUI");
+  return;
+}
 
 // GAME STARTS HERE
 function initialize() {
@@ -270,11 +279,9 @@ function initialize() {
   console.log(hero1);
   console.log(monster1);
   console.log("Game Loaded");
-  fnHideElements("CombadModeUI");
-  fnHideElements("ContinueMenuUI");
-  fnHideElements("TownModeUI");
+  fnShowElements("StartMenuUI");
   if (boolDebugMode) {
-    fnShowElements("CombadModeUI");
+    fnShowElements("CombatModeUI");
     fnShowElements("ContinueMenuUI");
     fnShowElements("TownModeUI");
   }
@@ -287,10 +294,6 @@ initialize();
 //     localStorage.setItem("hasCodeRunBefore", true);
 //   }
 // };
-
-/* disable and enable user click if required*/
-// function fnButtonDisable() {}
-// function fnButtonEnable() {}
 
 function fnDebugMode() {
   // Reveals UI
@@ -307,7 +310,7 @@ function fnDebugMode() {
   for (let i = 0; i < elements.length; i++) {
     elements[i].classList.remove("hidden");
   }
-  elements = document.getElementsByClassName("CombadModeUI");
+  elements = document.getElementsByClassName("CombatModeUI");
   for (let i = 0; i < elements.length; i++) {
     elements[i].classList.remove("hidden");
   }
