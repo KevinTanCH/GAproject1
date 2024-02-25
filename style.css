@@ -6,6 +6,7 @@ body {
   display: grid;
   justify-items: center;
   align-items: center;
+  margin: 1vw 1vw 1vw 1vw;
 }
 .CombatGraphGrid {
   background-color: greenyellow;
@@ -13,13 +14,15 @@ body {
   grid-template-rows: repeat(4, 1fr);
   grid-gap: 1vw;
   padding: 1vw;
-  height: 15vh;
-  /* height: 60vh; */
+  height: 20vw;
+  /* height: 60vw; */
+  margin: 1vw 1vw 1vw 1vw;
 }
 .CombatGridRow {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   grid-gap: 1vw;
+  margin: 1vw 1vw 1vw 1vw;
 }
 .GameTile {
   background-color: green;
@@ -27,6 +30,7 @@ body {
   justify-items: center;
   align-items: center;
   padding: 1vw 1vw 1vw 1vw;
+  margin: 1vw 1vw 1vw 1vw;
 }
 .ComabatConsoleText {
   background-color: azure;
@@ -44,14 +48,14 @@ body {
 .triangle-up {
   width: 0;
   height: 0;
-  border-left: 5vh solid transparent;
-  border-right: 5vh solid transparent;
-  border-bottom: 10vh solid;
+  border-left: 5vw solid transparent;
+  border-right: 5vw solid transparent;
+  border-bottom: 10vw solid;
   border-bottom-color: steelblue;
 }
 .circle {
-  height: 10vh;
-  width: 10vh;
+  height: 10vw;
+  width: 10vw;
   border-radius: 50%;
   background-color: red;
 }

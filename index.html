@@ -13,13 +13,15 @@
       <div class="CombatGraphGrid">
         <div class="CombatGridRow Row1">
           <div class="GameTile CGC1">
-            <div>Player</div>
+            <div class="Hero1Name"></div>
+            <div class="Hero1HP"></div>
             <div class="triangle-up"></div>
           </div>
           <div class="GameTile CGC2"></div>
           <div class="GameTile CGC3"></div>
           <div class="GameTile CGC4">
-            <div>Monster</div>
+            <div class="Monster1Name"></div>
+            <div class="Monster1HP"></div>
             <div class="circle"></div>
           </div>
         </div>
@@ -42,7 +44,8 @@
           <div class="GameTile CGC4"></div>
         </div> -->
       </div>
-      <div class="ComabatConsoleText">Combat Console text here</div>
+      <div class="ComabatConsoleText HeroText">Hero Turn</div>
+      <div class="ComabatConsoleText MonsterText">Monster Turn</div>
       <div class="CombatButtonBox">
         <button class="Button1">Attack, Weapon set 1</button>
         <button class="Button2">Attack, Weapon set 2</button>
@@ -63,11 +66,11 @@
     <div class="TownModeUI hidden">
       <div class="TownConsoleText">Town Console text here</div>
       <div class="TownMenu">
-        <button class="BtnBuyPotsHP">Buy Consumables</button>
-        <button class="BtnBuyEqpmt">Buy Equipment</button>
-        <button class="BtnManageEqpmt">Manage Equipment</button>
-        <button class="BtnTownHeal">Heal</button>
-        <button class="BtnLevelUp">LevelUp</button>
+        <button class="BtnBuyPotsHP">Buy HP potions (cost 2 coins)</button>
+        <button class="BtnBuyEqpmt">Buy Equipments</button>
+        <button class="BtnManageEqpmt">Manage Equipments</button>
+        <button class="BtnTownHeal">Heal up (cost 1 coin)</button>
+        <button class="BtnLevelUp">Level Up Menu</button>
         <button class="BtnSave">Save Game</button>
         <button class="BtnTownToCombat">To Adventure!</button>
       </div>
@@ -82,6 +85,15 @@
     <div class="EquipmentManageMenu hidden">
       <div>
         <button class="">Back</button>
+      </div>
+    </div>
+    <!-- LevelUpMenu -->
+    <div class="LevelUpMenu hidden">
+      <div>
+        <button class="BtnRangeUp">Range Skill Up</button>
+        <button class="BtnTwoHandUp">Two Handed Weapon Skill Up</button>
+        <button class="BtnOneHandUp">One Handed Weapon Skill Up</button>
+        <button class="BtnLevelUpMenuBack">Back</button>
       </div>
     </div>
     <!-- StartMenu -->

@@ -20,16 +20,27 @@ class Weapons extends Items {
   constructor(
     name = "fist",
     cost = 0,
-    damageType = 1,
+    damageType = 2, // 0Pierce1Hack2Blunt
     damagePoints = 1,
     damageChance = 1,
-    blockChance = [0, 0, 0]
+    blockResist = [0, 0, 0],
+    counterChance = 0
   ) {
     super(name, cost);
     this.damageType = damageType;
     this.damagePoints = damagePoints;
     this.damageChance = damageChance;
-    this.blockChance = blockChance;
+    this.blockResist = blockResist;
+    this.counterChance = counterChance;
+  }
+  changeWeapon(arrWeaponStat) {
+    this.name = arrWeaponStat[0];
+    this.cost = arrWeaponStat[1];
+    this.damageType = arrWeaponStat[2]; // 0Pierce1Hack2Blunt
+    this.damagePoints = arrWeaponStat[3];
+    this.damageChance = arrWeaponStat[4];
+    this.blockChance = arrWeaponStat[4];
+    this.counterChance = arrWeaponStat[4];
   }
 }
 const potionHP = new Consumables("HP potion", 2);
@@ -47,7 +58,11 @@ class Character {
     // return this.key;
   }
   damage(amount) {
-    this.hPoints -= amount;
+    if (amount > 0) {
+      this.hPoints -= amount;
+    } else {
+      amount = 0;
+    }
     console.log(this.name, amount, this.hPoints);
     return this.hPoints;
   }
@@ -67,18 +82,32 @@ class Character {
   }
 }
 class Hero extends Character {
-  constructor(hPoints, maxHP, charLevel, name, skillLevel = 1) {
+  constructor(hPoints, maxHP, charLevel, name, weaponSet, skillLevel = 1) {
     super(hPoints, maxHP, charLevel, name);
+    this.weaponSet = weaponSet;
     this.skillLevel = skillLevel;
+  }
+  setWeaonSet(Num) {
+    this.weaponSet = Num;
   }
   levelUp() {
     this.skillLevel++;
   }
 }
 class Monster extends Character {
-  constructor(hPoints, maxHP, charLevel, name, skillLevel = 1) {
+  constructor(
+    hPoints,
+    maxHP,
+    charLevel,
+    name,
+    skillLevel = 1,
+    damageType,
+    damageResist = [0, 0, 0]
+  ) {
     super(hPoints, maxHP, charLevel, name);
     this.skillLevel = skillLevel;
+    this.damageType = damageType; // 0Pierce1Hack2Blunt
+    this.damageResist = damageResist;
     // Not sure if need skill level for monsters, stretch goals?
   }
   changeMonster(arrMonsterStat) {
@@ -87,33 +116,47 @@ class Monster extends Character {
     this.charLevel = arrMonsterStat[2];
     this.name = arrMonsterStat[3];
     this.skillLevel = arrMonsterStat[4];
+    this.damageType = arrMonsterStat[5]; // 0Pierce1Hack2Blunt
+    this.damageResist = arrMonsterStat[6];
   }
 }
 
-/*----- Variables -----*/
+/*----- Constants -----*/
+// Weapon types here
+const arrWpnBow = ["Bow", 2, 0, 10, 10, [0, 0, 0], 0];
+const arrWpnSword = ["Sword", 3, 1, 10, 10, [0, 10, 10], 10];
+const arrWpnShield = ["Shield", 3, 2, 2, 5, [20, 20, 20], 0];
 // Monster types here
-const arrMonstSlime = [25, 25, 1, "Slime", 1];
-const arrMonstSkele = [50, 50, 2, "Skeleton", 1];
-const arrMonstCent = [150, 150, 3, "Centaur", 3];
-const arrMonstMant = [200, 200, 3, "Manticore", 3];
-const arrMonstChim = [200, 200, 3, "Chimera", 3];
-const arrMonstMino = [200, 200, 3, "Minotaur", 3];
-const arrMonstCyclo = [400, 400, 5, "Cyclops", 10];
-const arrMonstHydra = [500, 500, 5, "Hydra", 10];
-const arrMonstColo = [500, 500, 5, "Colossus", 10];
+const arrMonstSlime = [25, 25, 1, "Slime", 1, 2, [0, 0, 0]];
+const arrMonstSkele = [50, 50, 2, "Skeleton", 1, 2, [10, 0, 0]];
+const arrMonstCent = [150, 150, 3, "Centaur", 6, 0, [0, 0, 0]];
+const arrMonstMant = [200, 200, 3, "Manticore", 5, 0, [0, 0, 0]];
+const arrMonstChim = [200, 200, 3, "Chimera", 4, 1, [3, 3, 3]];
+const arrMonstMino = [200, 200, 3, "Minotaur", 3, 0, [5, 5, 5]];
+const arrMonstCyclo = [400, 400, 5, "Cyclops", 10, 2, [0, 5, 5]];
+const arrMonstHydra = [500, 500, 5, "Hydra", 10, 1, [10, 10, 0]];
+const arrMonstColo = [500, 500, 5, "Colossus", 10, 2, [10, 10, 10]];
 const arrMonstAllList = [
   arrMonstSlime,
   arrMonstSkele,
   arrMonstCent,
   arrMonstMant,
-  arrMonstChim,
-  arrMonstMino,
+  arrMonstChim, // skipped?
+  arrMonstMino, //skipped?
   arrMonstCyclo,
   arrMonstHydra,
   arrMonstColo,
 ];
+
+/*----- Instances -----*/
+const hero1 = new Hero(100, 100, 1, "Adam", 1, 99);
+const hero1WpnSet1 = new Weapons(...arrWpnBow);
+const hero1WpnSet2R = new Weapons(...arrWpnSword);
+const hero1WpnSet2L = new Weapons(...arrWpnShield);
+const kvpHero1Equipment = "shirt";
+const monster1 = new Monster(...arrMonstSlime);
 // Global Variables
-let boolDebugMode = true;
+let boolDebugMode = false;
 boolSaveGameExist = false;
 let intCoins = 10;
 let intDangerLevel = 0;
@@ -129,22 +172,20 @@ const kvpWeapons = {
   Rapier: 0,
   Axe: 0,
   Mace: 0,
+  Buckler: 0,
   Shield: 0,
 };
 const kvpArmour = { Gambeson: 0, Chainmail: 0, Platemail: 0, Plate: 0 };
 let intMonsterTurnBaseDamage = 0;
 let intHeroTurnBaseDamage = 0;
+let boolCounter = false;
 let boolCombatEnd = true;
 let boolGameContinue = true;
 
-/*----- Instances -----*/
-const hero1 = new Hero(100, 100, 1, "Adam", 2);
-const monster1 = new Monster(...arrMonstSlime);
-
 /*----- Event listeners -----*/
 // CombatButtons
-document.querySelector(".Button1").addEventListener("click", fnHeroTurn);
-document.querySelector(".Button2").addEventListener("click", fnHeroTurn);
+document.querySelector(".Button1").addEventListener("click", fnHeroAttack1);
+document.querySelector(".Button2").addEventListener("click", fnHeroAttack2);
 document.querySelector(".Button3").addEventListener("click", fnPotionHeal);
 document.querySelector(".Button4").addEventListener("click", fnRunaway);
 //ContinueButtons
@@ -164,6 +205,7 @@ document
   .addEventListener("click", fnTownToCombat);
 // StartMenuButtons
 document.querySelector(".BtnStartGame").addEventListener("click", fnStartGame);
+document.querySelector(".BtnLoadGame").addEventListener("click", fnLoadGame);
 document.querySelector(".BtnDebugGame").addEventListener("click", fnDebugMode);
 // GameOverButtons
 // document.querySelector(".BtnRestart").addEventListener("click", fnStartGame);
@@ -206,23 +248,63 @@ function fnMonsterTurn() {
   }
   intMonsterTurnBaseDamage =
     Math.round(Math.random() * 10) + monster1.skillLevel;
+  let HeroBlockWeapon = fnCheckHeroWeaponSet("Block");
+  intMonsterTurnBaseDamage =
+    intMonsterTurnBaseDamage - HeroBlockWeapon.blockResist[monster1.damageType];
   hero1.damage(intMonsterTurnBaseDamage);
   console.log(hero1);
   console.log(monster1);
+  fnCmbtMnstrText();
+  fnUpdateCombatGridHP();
   if (fnCheckCombatEnd()) {
     return;
   }
   return;
 }
-function fnHeroTurn() {
+function fnCheckHeroWeaponSet(Text) {
+  let whichWeapon = hero1.weaponSet;
+  if (whichWeapon === 1) {
+    whichWeapon = hero1WpnSet1;
+  } else if (whichWeapon === 2) {
+    if (Text === "Block") {
+      whichWeapon = hero1WpnSet2L;
+    } else {
+      whichWeapon = hero1WpnSet2R;
+    }
+  }
+
+  return whichWeapon;
+}
+function fnHeroAttack1() {
+  hero1.weaponSet = 1;
+  fnHeroTurn(1);
+  return;
+}
+function fnHeroAttack2() {
+  hero1.weaponSet = 2;
+  fnHeroTurn(2);
+  return;
+}
+function fnHeroTurn(Num) {
   console.log("Hero Turn");
   if (fnCheckCombatEnd()) {
     return;
   }
-  intHeroTurnBaseDamage = Math.round(Math.random() * 10) + hero1.skillLevel;
+
+  hero1.setWeaonSet(Num);
+  console.log("Hero using weapon set: " + Num);
+  let HeroAttackWeapon = fnCheckHeroWeaponSet();
+  intHeroTurnBaseDamage =
+    Math.round(Math.random() * 10) +
+    hero1.skillLevel +
+    HeroAttackWeapon.damagePoints;
+  intHeroTurnBaseDamage =
+    intHeroTurnBaseDamage - monster1.damageResist[HeroAttackWeapon.damageType];
   monster1.damage(intHeroTurnBaseDamage);
   console.log(hero1);
   console.log(monster1);
+  fnCmbtHeroText();
+  fnUpdateCombatGridHP();
   if (fnCheckCombatEnd()) {
     return;
   } else {
@@ -237,6 +319,9 @@ function fnCheckCombatEnd() {
     intCoins += 3 * intDangerLevel;
     console.log("More Coins: " + intCoins);
     fnUICmbtToCont();
+    fnContText(
+      `Defeated ${monster1.name}. Level ${hero1.charLevel} hero ${hero1.name} has ${hero1.hPoints} out of ${hero1.maxHP} HP. HP Potions: ${kvpConsumables.potsHP}. Coints: ${intCoins}.`
+    );
     return true;
   } else if (hero1.hPoints < 1) {
     boolGameContinue = false;
@@ -263,13 +348,56 @@ function fnPotionHeal() {
 function fnRunaway() {
   if (Math.random() > 0.5) {
     console.log("Tactical retreat success");
+    fnContText("Tactical retreat success");
     fnTownMode();
     return;
   } else {
     console.log("Tactical retreat failed");
+    fnCmbtHeroText("Tactical retreat failed");
     fnMonsterTurn();
     return;
   }
+}
+function fnCmbtMnstrText() {
+  let elements = document.getElementsByClassName("MonsterText");
+  let damageTypeText = fnDamageTypeText(monster1.damageType);
+  elements[0].innerText = `${monster1.name} attacks ${hero1.name} dealing ${intMonsterTurnBaseDamage} ${damageTypeText} damage`;
+  return;
+}
+function fnCmbtHeroText(text) {
+  let elements = document.getElementsByClassName("HeroText");
+  if (text) {
+    elements[0].innerText = text;
+    return;
+  } else {
+    let whichWeapon = fnCheckHeroWeaponSet();
+    let damageTypeText = fnDamageTypeText(whichWeapon.damageType);
+    elements[0].innerText = `${hero1.name} attacks ${monster1.name} with ${whichWeapon.name} dealing ${intHeroTurnBaseDamage} ${damageTypeText} damage`;
+    return;
+  }
+  return;
+}
+function fnDamageTypeText(num) {
+  // 0Pierce1Hack2Blunt
+  switch (num) {
+    case 0:
+      return "Pierce";
+    case 1:
+      return "Hack";
+    default:
+      return "Blunt";
+  }
+}
+function fnUpdateCombatGridHP() {
+  let elements = document.getElementsByClassName("Hero1Name");
+  elements[0].innerText = `${hero1.name}`;
+  elements = document.getElementsByClassName("Hero1HP");
+  elements[0].innerText = `${hero1.hPoints}/${hero1.maxHP}`;
+  elements = document.getElementsByClassName("Monster1Name");
+  elements[0].innerText = `${monster1.name}`;
+  elements = document.getElementsByClassName("Monster1HP");
+  elements[0].innerText = `${monster1.hPoints}/${monster1.maxHP}`;
+  return;
 }
 
 // Continue mode
@@ -285,6 +413,9 @@ function fnContPotionHeal() {
   } else {
     console.log("No more potions");
   }
+  fnContText(
+    `Level ${hero1.charLevel} hero ${hero1.name} has ${hero1.hPoints} out of ${hero1.maxHP} HP. HP Potions: ${kvpConsumables.potsHP}. Coints: ${intCoins}.`
+  );
   return;
 }
 function fnContToCmbt() {
@@ -302,6 +433,10 @@ function fnContToCmbt() {
   fnMonsterTurn();
   return;
 }
+function fnContText(Text) {
+  let elements = document.getElementsByClassName("ContinueConsoleText");
+  elements[0].innerText = Text;
+}
 
 // Town mode
 function fnTownMode() {
@@ -310,18 +445,19 @@ function fnTownMode() {
   boolCombatEnd = true;
   intDangerLevel = 0;
   console.log("Danger Level: " + intDangerLevel);
-  document.getElementsByClassName("TownConsoleText").innerText = "Yo";
-  return;
+  fnTownText();
 }
 function fnBuyItems() {
   if (intCoins < potionHP.cost) {
     console.log("Not enough coins!");
+    fnTownText();
     return;
   } else {
     intCoins = intCoins - potionHP.cost;
     kvpConsumables.potsHP++;
     console.log(kvpConsumables);
     console.log("Coins: " + intCoins);
+    fnTownText();
     return;
   }
 }
@@ -329,15 +465,19 @@ function fnTownHeal() {
   console.log("Town heal");
   if (hero1.hPoints === hero1.maxHP) {
     console.log("HP already MAX");
+
+    fnUIContToTown();
     return;
   } else if (intCoins < 1) {
     console.log("No Coins: " + intCoins);
+    fnTownText();
     return;
   } else {
     intCoins--;
     hero1.heal(50);
     console.log(hero1);
     console.log("Coins: " + intCoins);
+    fnTownText();
     return;
   }
 }
@@ -348,9 +488,11 @@ function fnTownLevelUp() {
     hero1.levelUp();
     console.log(hero1);
     console.log("Coins: " + intCoins);
+    fnTownText();
     return;
   } else if (intCoins < 1) {
     console.log("No Coins: " + intCoins);
+    fnTownText();
     return;
   } else {
     return;
@@ -362,7 +504,7 @@ function fnTownToCombat() {
   boolCombatEnd = false;
   intDangerLevel++;
   console.log("Danger Level: " + intDangerLevel);
-  if (intDangerLevel < 8) {
+  if (intDangerLevel < 10) {
     monster1.changeMonster(arrMonstAllList[intDangerLevel - 1]);
   } else {
     monster1.changeMonster(arrMonstColo);
@@ -370,6 +512,11 @@ function fnTownToCombat() {
   monster1.heal(monster1.maxHP);
   console.log(monster1);
   fnMonsterTurn();
+  return;
+}
+function fnTownText() {
+  let elements = document.getElementsByClassName("TownConsoleText");
+  elements[0].innerText = `Welcome to town. Level ${hero1.charLevel} hero ${hero1.name} has ${hero1.hPoints} out of ${hero1.maxHP} HP. HP Potions: ${kvpConsumables.potsHP}. Coints: ${intCoins}.`;
   return;
 }
 
@@ -380,9 +527,14 @@ function fnStartGame() {
   boolCombatEnd = true;
   intDangerLevel = 0;
   console.log("Danger Level: " + intDangerLevel);
-  document.getElementsByClassName(
-    "TownConsoleText"
-  ).innerText = `Danger Level: ${intDangerLevel}`;
+  fnTownText();
+  return;
+}
+function fnLoadGame() {
+  let btnToDisableClassName = this.classList;
+  console.log(btnToDisableClassName);
+  const btnToDisable = document.getElementsByClassName(btnToDisableClassName);
+  btnToDisable[0].disabled = true;
   return;
 }
 
@@ -392,6 +544,7 @@ function initialize() {
   console.log("Load Game");
   console.log(hero1);
   console.log(monster1);
+  fnUpdateCombatGridHP();
   console.log("Game Loaded");
   fnShowElements("StartMenuUI");
   if (boolDebugMode) {
