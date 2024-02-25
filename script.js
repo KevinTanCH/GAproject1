@@ -11,15 +11,25 @@ class Consumables extends Items {
   }
 }
 class Equipments extends Items {
-  constructor(name, cost) {
+  constructor(name = "skin", cost = 0, damageResist = [0, 0, 0]) {
     super(name, cost);
+    this.damageResist = damageResist;
   }
 }
 class Weapons extends Items {
-  constructor(name, cost, damagePoints, damageType) {
+  constructor(
+    name = "fist",
+    cost = 0,
+    damageType = 1,
+    damagePoints = 1,
+    damageChance = 1,
+    blockChance = [0, 0, 0]
+  ) {
     super(name, cost);
-    this.damagePoints = damagePoints;
     this.damageType = damageType;
+    this.damagePoints = damagePoints;
+    this.damageChance = damageChance;
+    this.blockChance = blockChance;
   }
 }
 const potionHP = new Consumables("HP potion", 2);
@@ -104,6 +114,7 @@ const arrMonstAllList = [
 ];
 // Global Variables
 let boolDebugMode = true;
+boolSaveGameExist = false;
 let intCoins = 10;
 let intDangerLevel = 0;
 let intTownModeCounter = 0;
@@ -299,6 +310,7 @@ function fnTownMode() {
   boolCombatEnd = true;
   intDangerLevel = 0;
   console.log("Danger Level: " + intDangerLevel);
+  document.getElementsByClassName("TownConsoleText").innerText = "Yo";
   return;
 }
 function fnBuyItems() {
@@ -350,10 +362,10 @@ function fnTownToCombat() {
   boolCombatEnd = false;
   intDangerLevel++;
   console.log("Danger Level: " + intDangerLevel);
-  if (intDangerLevel < 5) {
+  if (intDangerLevel < 8) {
     monster1.changeMonster(arrMonstAllList[intDangerLevel - 1]);
   } else {
-    monster1.changeMonster(arrMonstCyclo);
+    monster1.changeMonster(arrMonstColo);
   }
   monster1.heal(monster1.maxHP);
   console.log(monster1);
@@ -368,12 +380,15 @@ function fnStartGame() {
   boolCombatEnd = true;
   intDangerLevel = 0;
   console.log("Danger Level: " + intDangerLevel);
-
+  document.getElementsByClassName(
+    "TownConsoleText"
+  ).innerText = `Danger Level: ${intDangerLevel}`;
   return;
 }
 
 // GAME STARTS HERE
 function initialize() {
+  fnStartText();
   console.log("Load Game");
   console.log(hero1);
   console.log(monster1);
@@ -382,6 +397,15 @@ function initialize() {
   if (boolDebugMode) {
     fnDebugMode();
   }
+}
+function fnStartText() {
+  let elements = document.getElementsByClassName("StartMenuConsole");
+  if (boolSaveGameExist) {
+    elements[0].innerText = `Previous save exist`;
+  } else {
+    elements[0].innerText = `No existing save file.`;
+  }
+  return;
 }
 initialize();
 

@@ -24,7 +24,13 @@ body {
 .GameTile {
   background-color: green;
   display: grid;
+  justify-items: center;
+  align-items: center;
   padding: 1vw 1vw 1vw 1vw;
+}
+.ComabatConsoleText {
+  background-color: azure;
+  display: grid;
   justify-items: center;
   align-items: center;
 }
@@ -34,11 +40,6 @@ body {
   justify-items: center;
   align-items: center;
   grid-template-columns: repeat(4, 1fr);
-}
-.ComabatConsoleText {
-  display: grid;
-  justify-items: center;
-  align-items: center;
 }
 .triangle-up {
   width: 0;
