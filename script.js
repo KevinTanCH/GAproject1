@@ -10,15 +10,15 @@ class Consumables extends Items {
     super(name, cost);
   }
 }
-class Equipments extends Items {
+class Armour extends Items {
   constructor(name = "skin", cost = 0, damageResist = [0, 0, 0]) {
     super(name, cost);
     this.damageResist = damageResist;
   }
-  changeEquipment(arrEquipStat) {
-    this.name = arrEquipStat[0];
-    this.cost = arrEquipStat[1];
-    this.damageResist = arrEquipStat[2]; // 0Pierce1Hack2Blunt
+  changeEquipment(arrArmourStat) {
+    this.name = arrArmourStat[0];
+    this.cost = arrArmourStat[1];
+    this.damageResist = arrArmourStat[2]; // 0Pierce1Hack2Blunt
   }
 }
 class Weapons extends Items {
@@ -92,7 +92,7 @@ class Hero extends Character {
     this.weaponSet = weaponSet;
     this.skillLevel = skillLevel;
   }
-  setWeaonSet(Set1or2) {
+  setWeaponSet(Set1or2) {
     this.weaponSet = Set1or2;
   }
   levelUp() {
@@ -145,11 +145,11 @@ const arrWpnMace = ["Mace", 3, 1, 10, 10, [0, 10, 10], 10];
 const arrWpnBuckle = ["Buckler", 3, 2, 2, 5, [20, 20, 20], 20];
 const arrWpnShield = ["Shield", 3, 2, 2, 5, [20, 20, 20], 20];
 // Equipment types here NameCostResist
-const arrEqpShirt = ["Shirt", 0, [0, 0, 0]];
-const arrEqpGambe = ["Gambeson", 10, [5, 5, 5]];
-const arrEqpChain = ["Chainmail", 25, [5, 10, 5]];
-const arrEqpPltMl = ["Platemail", 30, [10, 15, 5]];
-const arrEqpFllPlt = ["FullPlate", 75, [20, 20, 20]];
+const arrAmrShirt = ["Shirt", 0, [0, 0, 0]];
+const arrAmrGambe = ["Gambeson", 10, [5, 5, 5]];
+const arrAmrChain = ["Chainmail", 25, [5, 10, 5]];
+const arrAmrPltMl = ["Platemail", 30, [10, 15, 5]];
+const arrAmrFllPlt = ["FullPlate", 75, [20, 20, 20]];
 // Monster types here HpMaxhpCharNameSkillTypeResist
 const arrMonstSlime = [25, 25, 1, "Slime", 1, 2, [0, 0, 0]];
 const arrMonstSkele = [50, 50, 2, "Skeleton", 1, 2, [10, 0, 0]];
@@ -177,7 +177,7 @@ const hero1 = new Hero(100, 100, 1, "Adam", 1, 1);
 const hero1WpnSet1 = new Weapons(...arrWpnGrtSwd);
 const hero1WpnSet2R = new Weapons(...arrWpnSword);
 const hero1WpnSet2L = new Weapons(...arrWpnShield);
-const Hero1EqpmtSet = new Equipments(...arrEqpShirt);
+const Hero1EqpmtSet = new Armour(...arrAmrShirt);
 const monster1 = new Monster(...arrMonstSlime);
 // Global Variables
 let boolDebugMode = false;
@@ -278,6 +278,8 @@ function fnSpawnMonster() {
 }
 function fnMonsterTurn() {
   console.log("Monster Turn");
+  intMonsterTurnBaseDamage = 0;
+  intHeroTurnBaseDamage = 0;
   if (fnCheckCombatEnd()) {
     return;
   }
@@ -305,6 +307,15 @@ function fnMonsterTurn() {
   console.log(hero1);
   console.log(monster1);
   fnCmbtMnstrText();
+  let HeroCounterWeapon = fnCheckHeroWeaponSet();
+  if (
+    HeroCounterWeapon.counterChance + hero1.skillLevel >
+    Math.round(Math.random() * 10)
+  ) {
+    intHeroTurnBaseDamage = HeroCounterWeapon.damagePoints;
+    monster1.damage(intHeroTurnBaseDamage);
+    fnCmbtMnstrText("Counter");
+  }
   fnUpdateCombatGridHP();
   if (fnCheckCombatEnd()) {
     return;
@@ -337,17 +348,24 @@ function fnHeroAttack2() {
 }
 function fnHeroTurn(Num) {
   console.log("Hero Turn");
+  intHeroTurnBaseDamage = 0;
   if (fnCheckCombatEnd()) {
     return;
   }
-
-  hero1.setWeaonSet(Num);
+  hero1.setWeaponSet(Num);
   console.log("Hero using weapon set: " + Num);
   let HeroAttackWeapon = fnCheckHeroWeaponSet();
   intHeroTurnBaseDamage =
     Math.round(Math.random() * 10) +
     hero1.skillLevel +
     HeroAttackWeapon.damagePoints;
+  if (
+    HeroAttackWeapon.damageChance + hero1.skillLevel >
+    Math.round(Math.random() * 10)
+  ) {
+    intHeroTurnBaseDamage =
+      intHeroTurnBaseDamage + HeroAttackWeapon.damagePoints;
+  }
   intHeroTurnBaseDamage =
     intHeroTurnBaseDamage - monster1.damageResist[HeroAttackWeapon.damageType];
   monster1.damage(intHeroTurnBaseDamage);
@@ -369,8 +387,10 @@ function fnCheckCombatEnd() {
     intCoins += 3 * intDangerLevel;
     console.log("More Coins: " + intCoins);
     fnUICmbtToCont();
+    let whichWeapon = fnCheckHeroWeaponSet();
+    let damageTypeText = fnDamageTypeText(whichWeapon.damageType);
     fnContText(
-      `Defeated ${monster1.name}. Level ${hero1.charLevel} hero ${hero1.name} has ${hero1.hPoints} out of ${hero1.maxHP} HP. HP Potions: ${kvpConsumables.potsHP}. Coints: ${intCoins}.`
+      `Defeated ${monster1.name} with ${whichWeapon.name} dealing ${intHeroTurnBaseDamage} ${damageTypeText} damage. Level ${hero1.charLevel} hero ${hero1.name} has ${hero1.hPoints} out of ${hero1.maxHP} HP. HP Potions: ${kvpConsumables.potsHP}. Coints: ${intCoins}.`
     );
     return true;
   } else if (hero1.hPoints < 1) {
@@ -408,19 +428,25 @@ function fnRunaway() {
     return;
   }
 }
-function fnCmbtMnstrText() {
+function fnCmbtMnstrText(text) {
   let elements = document.getElementsByClassName("MonsterText");
   let damageTypeText = fnDamageTypeText(monster1.damageType);
-  elements[0].innerText = `${monster1.name} attacks ${hero1.name} dealing ${intMonsterTurnBaseDamage} ${damageTypeText} damage.`;
+  elements[0].innerText = `${monster1.name} attacks ${hero1.name} dealing ${intMonsterTurnBaseDamage} ${damageTypeText} damage. `;
+  if (text === "Counter") {
+    let whichWeapon = fnCheckHeroWeaponSet();
+    let damageTypeText = fnDamageTypeText(whichWeapon.damageType);
+    elements[0].innerText += ` ${hero1.name} counter attacks ${monster1.name} with ${whichWeapon.name} dealing ${intHeroTurnBaseDamage} ${damageTypeText} damage.`;
+    return;
+  }
   return;
 }
 function fnCmbtHeroText(text) {
   let elements = document.getElementsByClassName("HeroText");
+  let whichWeapon = fnCheckHeroWeaponSet();
   if (text) {
     elements[0].innerText = text;
     return;
   } else {
-    let whichWeapon = fnCheckHeroWeaponSet();
     let damageTypeText = fnDamageTypeText(whichWeapon.damageType);
     elements[0].innerText = `${hero1.name} attacks ${monster1.name} with ${whichWeapon.name} dealing ${intHeroTurnBaseDamage} ${damageTypeText} damage.`;
     return;
@@ -584,10 +610,10 @@ function fnLoadGame() {
 
 // GAME STARTS HERE
 function initialize() {
-  fnStartText();
   console.log("Load Game");
   console.log(hero1);
   console.log(monster1);
+  fnStartText();
   fnUpdateCombatGridHP();
   console.log("Game Loaded");
   fnShowElements("StartMenuUI");
@@ -610,25 +636,15 @@ function fnDebugMode() {
   // Reveals all UI with debug button
   boolDebugMode = true;
   let elements = document.getElementsByClassName("StartMenuUI");
-  for (let i = 0; i < elements.length; i++) {
-    elements[i].classList.remove("hidden");
-  }
+  elements[0].classList.remove("hidden");
   elements = document.getElementsByClassName("TownModeUI");
-  for (let i = 0; i < elements.length; i++) {
-    elements[i].classList.remove("hidden");
-  }
+  elements[0].classList.remove("hidden");
   elements = document.getElementsByClassName("ContinueMenuUI");
-  for (let i = 0; i < elements.length; i++) {
-    elements[i].classList.remove("hidden");
-  }
+  elements[0].classList.remove("hidden");
   elements = document.getElementsByClassName("CombatModeUI");
-  for (let i = 0; i < elements.length; i++) {
-    elements[i].classList.remove("hidden");
-  }
+  elements[0].classList.remove("hidden");
   elements = document.getElementsByClassName("GameOverUI");
-  for (let i = 0; i < elements.length; i++) {
-    elements[i].classList.remove("hidden");
-  }
+  elements[0].classList.remove("hidden");
   return;
 }
 
