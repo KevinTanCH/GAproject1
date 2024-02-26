@@ -15,6 +15,11 @@ class Equipments extends Items {
     super(name, cost);
     this.damageResist = damageResist;
   }
+  changeEquipment(arrEquipStat) {
+    this.name = arrEquipStat[0];
+    this.cost = arrEquipStat[1];
+    this.damageResist = arrEquipStat[2]; // 0Pierce1Hack2Blunt
+  }
 }
 class Weapons extends Items {
   constructor(
@@ -39,8 +44,8 @@ class Weapons extends Items {
     this.damageType = arrWeaponStat[2]; // 0Pierce1Hack2Blunt
     this.damagePoints = arrWeaponStat[3];
     this.damageChance = arrWeaponStat[4];
-    this.blockChance = arrWeaponStat[4];
-    this.counterChance = arrWeaponStat[4];
+    this.blockChance = arrWeaponStat[5];
+    this.counterChance = arrWeaponStat[6];
   }
 }
 const potionHP = new Consumables("HP potion", 2);
@@ -87,11 +92,12 @@ class Hero extends Character {
     this.weaponSet = weaponSet;
     this.skillLevel = skillLevel;
   }
-  setWeaonSet(Num) {
-    this.weaponSet = Num;
+  setWeaonSet(Set1or2) {
+    this.weaponSet = Set1or2;
   }
   levelUp() {
     this.skillLevel++;
+    this.charLevel++;
   }
 }
 class Monster extends Character {
@@ -122,38 +128,56 @@ class Monster extends Character {
 }
 
 /*----- Constants -----*/
-// Weapon types here
+// Weapon types here NameCostTypePointsChanceResistCounter
+// Range
 const arrWpnBow = ["Bow", 2, 0, 10, 10, [0, 0, 0], 0];
+const arrWpnWrBow = ["WarBow", 15, 0, 20, 10, [0, 0, 0], 0];
+// 2 Hands
+const arrWpnSpear = ["Spear", 2, 0, 10, 10, [0, 0, 0], 0];
+const arrWpnBttlAxe = ["BattletAxe", 10, 1, 20, 10, [0, 0, 0], 0];
+const arrWpnWrHmmr = ["WarHammer", 10, 2, 20, 10, [0, 0, 0], 0];
+const arrWpnGrtSwd = ["GreatSword", 15, 1, 15, 20, [0, 0, 0], 15];
+// 1 Hand
 const arrWpnSword = ["Sword", 3, 1, 10, 10, [0, 10, 10], 10];
-const arrWpnShield = ["Shield", 3, 2, 2, 5, [20, 20, 20], 0];
-// Monster types here
+const arrWpnRapier = ["Rapier", 3, 1, 10, 10, [0, 10, 10], 10];
+const arrWpnAxe = ["Axe", 3, 1, 10, 10, [0, 10, 10], 10];
+const arrWpnMace = ["Mace", 3, 1, 10, 10, [0, 10, 10], 10];
+const arrWpnBuckle = ["Buckler", 3, 2, 2, 5, [20, 20, 20], 20];
+const arrWpnShield = ["Shield", 3, 2, 2, 5, [20, 20, 20], 20];
+// Equipment types here NameCostResist
+const arrEqpShirt = ["Shirt", 0, [0, 0, 0]];
+const arrEqpGambe = ["Gambeson", 10, [5, 5, 5]];
+const arrEqpChain = ["Chainmail", 25, [5, 10, 5]];
+const arrEqpPltMl = ["Platemail", 30, [10, 15, 5]];
+const arrEqpFllPlt = ["FullPlate", 75, [20, 20, 20]];
+// Monster types here HpMaxhpCharNameSkillTypeResist
 const arrMonstSlime = [25, 25, 1, "Slime", 1, 2, [0, 0, 0]];
 const arrMonstSkele = [50, 50, 2, "Skeleton", 1, 2, [10, 0, 0]];
 const arrMonstCent = [150, 150, 3, "Centaur", 6, 0, [0, 0, 0]];
 const arrMonstMant = [200, 200, 3, "Manticore", 5, 0, [0, 0, 0]];
 const arrMonstChim = [200, 200, 3, "Chimera", 4, 1, [3, 3, 3]];
-const arrMonstMino = [200, 200, 3, "Minotaur", 3, 0, [5, 5, 5]];
+const arrMonstMino = [200, 200, 3, "Minotaur", 8, 0, [5, 5, 5]];
 const arrMonstCyclo = [400, 400, 5, "Cyclops", 10, 2, [0, 5, 5]];
-const arrMonstHydra = [500, 500, 5, "Hydra", 10, 1, [10, 10, 0]];
-const arrMonstColo = [500, 500, 5, "Colossus", 10, 2, [10, 10, 10]];
+const arrMonstHydra = [500, 500, 5, "Hydra", 15, 1, [10, 10, 0]];
+const arrMonstColo = [500, 500, 5, "Colossus", 20, 2, [10, 10, 10]];
 const arrMonstAllList = [
   arrMonstSlime,
   arrMonstSkele,
   arrMonstCent,
   arrMonstMant,
-  arrMonstChim, // skipped?
-  arrMonstMino, //skipped?
+  arrMonstChim,
+  arrMonstMino,
   arrMonstCyclo,
   arrMonstHydra,
   arrMonstColo,
 ];
 
 /*----- Instances -----*/
-const hero1 = new Hero(100, 100, 1, "Adam", 1, 99);
-const hero1WpnSet1 = new Weapons(...arrWpnBow);
+const hero1 = new Hero(100, 100, 1, "Adam", 1, 1);
+const hero1WpnSet1 = new Weapons(...arrWpnGrtSwd);
 const hero1WpnSet2R = new Weapons(...arrWpnSword);
 const hero1WpnSet2L = new Weapons(...arrWpnShield);
-const kvpHero1Equipment = "shirt";
+const Hero1EqpmtSet = new Equipments(...arrEqpShirt);
 const monster1 = new Monster(...arrMonstSlime);
 // Global Variables
 let boolDebugMode = false;
@@ -164,6 +188,7 @@ let intTownModeCounter = 0;
 const kvpConsumables = { potsHP: 0 };
 const kvpWeapons = {
   Bow: 0,
+  WarBow: 0,
   Spear: 0,
   BattletAxe: 0,
   WarHammer: 0,
@@ -175,7 +200,7 @@ const kvpWeapons = {
   Buckler: 0,
   Shield: 0,
 };
-const kvpArmour = { Gambeson: 0, Chainmail: 0, Platemail: 0, Plate: 0 };
+const kvpArmour = { Gambeson: 0, Chainmail: 0, Platemail: 0, FullPlate: 0 };
 let intMonsterTurnBaseDamage = 0;
 let intHeroTurnBaseDamage = 0;
 let boolCounter = false;
@@ -241,6 +266,16 @@ function fnUIGameOver() {
 }
 
 // Combat Mode
+function fnSpawnMonster() {
+  console.log("Spawning monster");
+  if (intDangerLevel < 10) {
+    monster1.changeMonster(arrMonstAllList[intDangerLevel - 1]);
+  } else {
+    monster1.changeMonster(arrMonstCyclo);
+  }
+  monster1.heal(monster1.maxHP);
+  return;
+}
 function fnMonsterTurn() {
   console.log("Monster Turn");
   if (fnCheckCombatEnd()) {
@@ -248,9 +283,24 @@ function fnMonsterTurn() {
   }
   intMonsterTurnBaseDamage =
     Math.round(Math.random() * 10) + monster1.skillLevel;
+  console.log(intMonsterTurnBaseDamage);
   let HeroBlockWeapon = fnCheckHeroWeaponSet("Block");
+  console.log(HeroBlockWeapon);
+  console.log(HeroBlockWeapon.counterChance);
+  console.log(hero1.skillLevel);
+  if (
+    HeroBlockWeapon.counterChance + hero1.skillLevel >
+    intMonsterTurnBaseDamage
+  ) {
+    intMonsterTurnBaseDamage =
+      intMonsterTurnBaseDamage -
+      HeroBlockWeapon.blockResist[monster1.damageType];
+    console.log(intMonsterTurnBaseDamage);
+  }
+  console.log(Hero1EqpmtSet);
   intMonsterTurnBaseDamage =
-    intMonsterTurnBaseDamage - HeroBlockWeapon.blockResist[monster1.damageType];
+    intMonsterTurnBaseDamage - Hero1EqpmtSet.damageResist[monster1.damageType];
+  console.log(intMonsterTurnBaseDamage);
   hero1.damage(intMonsterTurnBaseDamage);
   console.log(hero1);
   console.log(monster1);
@@ -361,7 +411,7 @@ function fnRunaway() {
 function fnCmbtMnstrText() {
   let elements = document.getElementsByClassName("MonsterText");
   let damageTypeText = fnDamageTypeText(monster1.damageType);
-  elements[0].innerText = `${monster1.name} attacks ${hero1.name} dealing ${intMonsterTurnBaseDamage} ${damageTypeText} damage`;
+  elements[0].innerText = `${monster1.name} attacks ${hero1.name} dealing ${intMonsterTurnBaseDamage} ${damageTypeText} damage.`;
   return;
 }
 function fnCmbtHeroText(text) {
@@ -372,7 +422,7 @@ function fnCmbtHeroText(text) {
   } else {
     let whichWeapon = fnCheckHeroWeaponSet();
     let damageTypeText = fnDamageTypeText(whichWeapon.damageType);
-    elements[0].innerText = `${hero1.name} attacks ${monster1.name} with ${whichWeapon.name} dealing ${intHeroTurnBaseDamage} ${damageTypeText} damage`;
+    elements[0].innerText = `${hero1.name} attacks ${monster1.name} with ${whichWeapon.name} dealing ${intHeroTurnBaseDamage} ${damageTypeText} damage.`;
     return;
   }
   return;
@@ -407,9 +457,11 @@ function fnContToTown() {
 function fnContPotionHeal() {
   console.log("Potion Heal");
   if (kvpConsumables.potsHP > 0) {
+    kvpConsumables.potsHP--;
     hero1.heal(50);
     console.log(hero1);
-    return;
+  } else if (hero1.hPoints === hero1.maxHP) {
+    console.log("HP already MAX");
   } else {
     console.log("No more potions");
   }
@@ -424,13 +476,9 @@ function fnContToCmbt() {
   boolCombatEnd = false;
   intDangerLevel++;
   console.log("Danger Level: " + intDangerLevel);
-  if (intDangerLevel < 5) {
-    monster1.changeMonster(arrMonstAllList[intDangerLevel - 1]);
-  } else {
-    monster1.changeMonster(arrMonstCyclo);
-  }
-  monster1.heal(monster1.maxHP);
+  fnSpawnMonster();
   fnMonsterTurn();
+  fnCmbtHeroText(`Awaiting hero turn.`);
   return;
 }
 function fnContText(Text) {
@@ -504,14 +552,10 @@ function fnTownToCombat() {
   boolCombatEnd = false;
   intDangerLevel++;
   console.log("Danger Level: " + intDangerLevel);
-  if (intDangerLevel < 10) {
-    monster1.changeMonster(arrMonstAllList[intDangerLevel - 1]);
-  } else {
-    monster1.changeMonster(arrMonstColo);
-  }
-  monster1.heal(monster1.maxHP);
+  fnSpawnMonster();
   console.log(monster1);
   fnMonsterTurn();
+  fnCmbtHeroText(`Awaiting hero turn.`);
   return;
 }
 function fnTownText() {
