@@ -15,7 +15,7 @@ class Armour extends Items {
     super(name, cost);
     this.damageResist = damageResist;
   }
-  changeEquipment(arrArmourStat) {
+  changeArmour(arrArmourStat) {
     this.name = arrArmourStat[0];
     this.cost = arrArmourStat[1];
     this.damageResist = arrArmourStat[2]; // 0Pierce1Hack2Blunt
@@ -130,17 +130,19 @@ class Monster extends Character {
 /*----- Constants -----*/
 // Weapon types here NameCostTypePointsChanceResistCounter
 // Range
-const arrWpnBow = ["Bow", 2, 0, 10, 10, [0, 0, 0], 0];
+const arrWpnBow = ["Bow", 2, 0, 5, 10, [0, 0, 0], 0];
 const arrWpnWrBow = ["WarBow", 15, 0, 20, 10, [0, 0, 0], 0];
 // 2 Hands
-const arrWpnSpear = ["Spear", 2, 0, 10, 10, [0, 0, 0], 0];
-const arrWpnBttlAxe = ["BattletAxe", 10, 1, 20, 10, [0, 0, 0], 0];
-const arrWpnWrHmmr = ["WarHammer", 10, 2, 20, 10, [0, 0, 0], 0];
-const arrWpnGrtSwd = ["GreatSword", 15, 1, 15, 20, [0, 0, 0], 15];
+const arrWpnStaff = ["Staff", 0, 2, 5, 1, [0, 0, 0], 1];
+const arrWpnSpear = ["Spear", 2, 0, 5, 15, [0, 0, 0], 2];
+const arrWpnBttlAxe = ["BattletAxe", 10, 1, 15, 10, [0, 0, 0], 2];
+const arrWpnWrHmmr = ["WarHammer", 10, 2, 15, 10, [0, 0, 0], 2];
+const arrWpnGrtSwd = ["GreatSword", 15, 1, 10, 20, [0, 0, 0], 10];
 // 1 Hand
-const arrWpnSword = ["Sword", 3, 1, 10, 10, [0, 10, 10], 10];
+const arrWpnFist = ["Fist", 0, 2, 1, 1, [0, 0, 0], 0];
+const arrWpnSword = ["Sword", 3, 1, 10, 10, [0, 10, 10], 2];
 const arrWpnRapier = ["Rapier", 3, 1, 10, 10, [0, 10, 10], 10];
-const arrWpnAxe = ["Axe", 3, 1, 10, 10, [0, 10, 10], 10];
+const arrWpnAxe = ["Axe", 3, 1, 10, 10, [0, 10, 10], 0];
 const arrWpnMace = ["Mace", 3, 1, 10, 10, [0, 10, 10], 10];
 const arrWpnBuckle = ["Buckler", 3, 2, 2, 5, [20, 20, 20], 20];
 const arrWpnShield = ["Shield", 3, 2, 2, 5, [20, 20, 20], 20];
@@ -154,12 +156,12 @@ const arrAmrFllPlt = ["FullPlate", 75, [20, 20, 20]];
 const arrMonstSlime = [25, 25, 1, "Slime", 1, 2, [0, 0, 0]];
 const arrMonstSkele = [50, 50, 2, "Skeleton", 1, 2, [10, 0, 0]];
 const arrMonstCent = [150, 150, 3, "Centaur", 6, 0, [0, 0, 0]];
-const arrMonstMant = [200, 200, 3, "Manticore", 5, 0, [0, 0, 0]];
-const arrMonstChim = [200, 200, 3, "Chimera", 4, 1, [3, 3, 3]];
-const arrMonstMino = [200, 200, 3, "Minotaur", 8, 0, [5, 5, 5]];
-const arrMonstCyclo = [400, 400, 5, "Cyclops", 10, 2, [0, 5, 5]];
-const arrMonstHydra = [500, 500, 5, "Hydra", 15, 1, [10, 10, 0]];
-const arrMonstColo = [500, 500, 5, "Colossus", 20, 2, [10, 10, 10]];
+const arrMonstMant = [200, 200, 6, "Manticore", 5, 0, [0, 0, 0]];
+const arrMonstChim = [200, 200, 7, "Chimera", 4, 1, [3, 3, 3]];
+const arrMonstMino = [250, 250, 8, "Minotaur", 8, 0, [5, 5, 5]];
+const arrMonstCyclo = [400, 400, 10, "Cyclops", 10, 2, [0, 5, 5]];
+const arrMonstHydra = [500, 500, 13, "Hydra", 15, 1, [10, 10, 0]];
+const arrMonstColo = [500, 500, 15, "Colossus", 20, 2, [10, 10, 10]];
 const arrMonstAllList = [
   arrMonstSlime,
   arrMonstSkele,
@@ -174,9 +176,9 @@ const arrMonstAllList = [
 
 /*----- Instances -----*/
 const hero1 = new Hero(100, 100, 1, "Adam", 1, 1);
-const hero1WpnSet1 = new Weapons(...arrWpnGrtSwd);
-const hero1WpnSet2R = new Weapons(...arrWpnSword);
-const hero1WpnSet2L = new Weapons(...arrWpnShield);
+const hero1WpnSet1 = new Weapons(...arrWpnStaff);
+const hero1WpnSet2R = new Weapons(...arrWpnFist);
+const hero1WpnSet2L = new Weapons(...arrWpnFist);
 const Hero1EqpmtSet = new Armour(...arrAmrShirt);
 const monster1 = new Monster(...arrMonstSlime);
 // Global Variables
@@ -189,6 +191,7 @@ const kvpConsumables = { potsHP: 0 };
 const kvpWeapons = {
   Bow: 0,
   WarBow: 0,
+  Staff: 1,
   Spear: 0,
   BattletAxe: 0,
   WarHammer: 0,
@@ -223,11 +226,30 @@ document
   .addEventListener("click", fnContToCmbt);
 // TownButtons
 document.querySelector(".BtnBuyPotsHP").addEventListener("click", fnBuyItems);
+document.querySelector(".BtnBuyEqpmt").addEventListener("click", fnUIEqpmtBuy);
+document.querySelector(".BtnMngEqpmt").addEventListener("click", fnUIEqpmtMng);
 document.querySelector(".BtnTownHeal").addEventListener("click", fnTownHeal);
 document.querySelector(".BtnLevelUp").addEventListener("click", fnTownLevelUp);
 document
   .querySelector(".BtnTownToCombat")
   .addEventListener("click", fnTownToCombat);
+// BuyMenuButtons
+const btnBuyList = document.querySelectorAll(".BtnBuy");
+btnBuyList.forEach((btnBuyList) => {
+  btnBuyList.addEventListener("click", fnBuyEqpmt);
+});
+
+document
+  .querySelector(".BtnEqpmtBuyMenuBack")
+  .addEventListener("click", fnUIEqpmtBuyBack);
+// ManageMenuButtons
+const btnMngList = document.querySelectorAll(".BtnMng");
+btnMngList.forEach((btnMngList) => {
+  btnMngList.addEventListener("click", fnMngEqpmt);
+});
+document
+  .querySelector(".BtnEqpmtMngMenuBack")
+  .addEventListener("click", fnUIEqpmtMngBack);
 // StartMenuButtons
 document.querySelector(".BtnStartGame").addEventListener("click", fnStartGame);
 document.querySelector(".BtnLoadGame").addEventListener("click", fnLoadGame);
@@ -263,6 +285,26 @@ function fnUIContToTown() {
 function fnUIGameOver() {
   fnHideElements("CombatModeUI");
   fnShowElements("GameOverUI");
+}
+function fnUIEqpmtBuy() {
+  fnBuyText();
+  fnHideElements("TownModeUI");
+  fnShowElements("EquipmentBuyMenuUI");
+}
+function fnUIEqpmtBuyBack() {
+  fnTownText();
+  fnHideElements("EquipmentBuyMenuUI");
+  fnShowElements("TownModeUI");
+}
+function fnUIEqpmtMng() {
+  fnMngText();
+  fnHideElements("TownModeUI");
+  fnShowElements("EquipmentManageMenuUI");
+}
+function fnUIEqpmtMngBack() {
+  fnTownText();
+  fnHideElements("EquipmentManageMenuUI");
+  fnShowElements("TownModeUI");
 }
 
 // Combat Mode
@@ -384,13 +426,13 @@ function fnCheckCombatEnd() {
   if (monster1.hPoints < 1) {
     boolGameContinue = true;
     boolCombatEnd = false;
-    intCoins += 3 * intDangerLevel;
+    intCoins = intCoins + intDangerLevel + monster1.charLevel;
     console.log("More Coins: " + intCoins);
     fnUICmbtToCont();
     let whichWeapon = fnCheckHeroWeaponSet();
     let damageTypeText = fnDamageTypeText(whichWeapon.damageType);
     fnContText(
-      `Defeated ${monster1.name} with ${whichWeapon.name} dealing ${intHeroTurnBaseDamage} ${damageTypeText} damage. Level ${hero1.charLevel} hero ${hero1.name} has ${hero1.hPoints} out of ${hero1.maxHP} HP. HP Potions: ${kvpConsumables.potsHP}. Coints: ${intCoins}.`
+      `Defeated ${monster1.name} with ${whichWeapon.name} dealing ${intHeroTurnBaseDamage} ${damageTypeText} damage. Level ${hero1.charLevel} hero ${hero1.name} has ${hero1.hPoints} out of ${hero1.maxHP} HP. HP Potions: ${kvpConsumables.potsHP}. Coins: ${intCoins}.`
     );
     return true;
   } else if (hero1.hPoints < 1) {
@@ -492,7 +534,7 @@ function fnContPotionHeal() {
     console.log("No more potions");
   }
   fnContText(
-    `Level ${hero1.charLevel} hero ${hero1.name} has ${hero1.hPoints} out of ${hero1.maxHP} HP. HP Potions: ${kvpConsumables.potsHP}. Coints: ${intCoins}.`
+    `Level ${hero1.charLevel} hero ${hero1.name} has ${hero1.hPoints} out of ${hero1.maxHP} HP. HP Potions: ${kvpConsumables.potsHP}. Coins: ${intCoins}.`
   );
   return;
 }
@@ -590,6 +632,222 @@ function fnTownText() {
   return;
 }
 
+//Buy Equipment
+function fnBuyEqpmt() {
+  let btnToDisableClassName = this.classList;
+  const btnToDisable = document.getElementsByClassName(btnToDisableClassName);
+  btnToDisable[0].disabled = true;
+  console.log(btnToDisableClassName[1]);
+  switch (btnToDisableClassName[1]) {
+    case "Bow":
+      if (intCoins > arrWpnBow[1]) {
+        kvpWeapons.Bow++;
+        intCoins = intCoins - arrWpnBow[1];
+      }
+      break;
+    case "WarBow":
+      if (intCoins > arrWpnWrBow[1]) {
+        kvpWeapons.WarBow++;
+        intCoins = intCoins - arrWpnWrBow[1];
+      }
+      break;
+    case "Spear":
+      if (intCoins > arrWpnSpear[1]) {
+        kvpWeapons.Spear++;
+        intCoins = intCoins - arrWpnSpear[1];
+      }
+      break;
+    case "BattletAxe":
+      if (intCoins > arrWpnBttlAxe[1]) {
+        kvpWeapons.BattletAxe++;
+        intCoins = intCoins - arrWpnBttlAxe[1];
+      }
+      break;
+    case "WarHammer":
+      if (intCoins > arrWpnWrHmmr[1]) {
+        kvpWeapons.WarHammer++;
+        intCoins = intCoins - arrWpnWrHmmr[1];
+      }
+      break;
+    case "GreatSword":
+      if (intCoins > arrWpnGrtSwd[1]) {
+        kvpWeapons.GreatSword++;
+        intCoins = intCoins - arrWpnGrtSwd[1];
+      }
+      break;
+    case "Sword":
+      if (intCoins > arrWpnSword[1]) {
+        kvpWeapons.Sword++;
+        intCoins = intCoins - arrWpnSword[1];
+      }
+      break;
+    case "Rapier":
+      if (intCoins > arrWpnRapier[1]) {
+        kvpWeapons.Rapier++;
+        intCoins = intCoins - arrWpnRapier[1];
+      }
+      break;
+    case "Axe":
+      if (intCoins > arrWpnAxe[1]) {
+        kvpWeapons.Axe++;
+        intCoins = intCoins - arrWpnAxe[1];
+      }
+      break;
+    case "Mace":
+      if (intCoins > arrWpnMace[1]) {
+        kvpWeapons.Mace++;
+        intCoins = intCoins - arrWpnMace[1];
+      }
+      break;
+    case "Buckler":
+      if (intCoins > arrWpnBuckle[1]) {
+        kvpWeapons.Buckler++;
+        intCoins = intCoins - arrWpnBuckle[1];
+      }
+      break;
+    case "Shield":
+      if (intCoins > arrWpnShield[1]) {
+        kvpWeapons.Shield++;
+        intCoins = intCoins - arrWpnShield[1];
+      }
+      break;
+    case "Gambeson":
+      if (intCoins > arrAmrGambe[1]) {
+        kvpArmour.Gambeson++;
+        intCoins = intCoins - arrAmrGambe[1];
+      }
+      break;
+    case "Chainmail":
+      if (intCoins > arrAmrChain[1]) {
+        kvpArmour.Chainmail++;
+        intCoins = intCoins - arrAmrChain[1];
+      }
+      break;
+    case "Platemail":
+      if (intCoins > arrAmrPltMl[1]) {
+        kvpArmour.Platemail++;
+        intCoins = intCoins - arrAmrPltMl[1];
+      }
+      break;
+    case "FullPlate":
+      if (intCoins > arrAmrFllPlt[1]) {
+        kvpArmour.FullPlate++;
+        intCoins = intCoins - arrAmrFllPlt[1];
+      }
+      break;
+    default:
+      console.log("Error");
+  }
+  console.log(kvpWeapons);
+  console.log(kvpArmour);
+  fnBuyText();
+  return;
+}
+function fnBuyText() {
+  let elements = document.getElementsByClassName("EqpmtBuyMenuText");
+  elements[0].innerText = `Coins: ${intCoins}.`;
+  return;
+}
+
+//Manage Equipment
+function fnMngEqpmt() {
+  let btnToEquip = this.classList;
+  console.log(btnToEquip[1]);
+  switch (btnToEquip[1]) {
+    case "Bow":
+      if (kvpWeapons.Bow) {
+        hero1WpnSet1.changeWeapon(arrWpnBow);
+      }
+      break;
+    case "WarBow":
+      if (kvpWeapons.WarBow) {
+        hero1WpnSet1.changeWeapon(arrWpnWrBow);
+      }
+      break;
+    case "Spear":
+      if (kvpWeapons.Spear) {
+        hero1WpnSet1.changeWeapon(arrWpnSpear);
+      }
+      break;
+    case "BattletAxe":
+      if (kvpWeapons.BattletAxe) {
+        hero1WpnSet1.changeWeapon(arrWpnBttlAxe);
+      }
+      break;
+    case "WarHammer":
+      if (kvpWeapons.WarHammer) {
+        hero1WpnSet1.changeWeapon(arrWpnWrHmmr);
+      }
+      break;
+    case "GreatSword":
+      if (kvpWeapons.GreatSword) {
+        hero1WpnSet1.changeWeapon(arrWpnGrtSwd);
+      }
+      break;
+    case "Sword":
+      if (kvpWeapons.Sword) {
+        hero1WpnSet2R.changeWeapon(arrWpnSword);
+      }
+      break;
+    case "Rapier":
+      if (kvpWeapons.Rapier) {
+        hero1WpnSet2R.changeWeapon(arrWpnRapier);
+      }
+      break;
+    case "Axe":
+      if (kvpWeapons.Axe) {
+        hero1WpnSet2R.changeWeapon(arrWpnAxe);
+      }
+      break;
+    case "Mace":
+      if (kvpWeapons.Mace) {
+        hero1WpnSet2R.changeWeapon(arrWpnMace);
+      }
+      break;
+    case "Buckler":
+      if (kvpWeapons.Buckler) {
+        hero1WpnSet2L.changeWeapon(arrWpnBuckle);
+      }
+      break;
+    case "Shield":
+      if (kvpWeapons.Shield) {
+        hero1WpnSet2L.changeWeapon(arrWpnShield);
+      }
+      break;
+    case "Gambeson":
+      if (kvpArmour.Gambeson) {
+        Hero1EqpmtSet.changeArmour(arrAmrGambe);
+      }
+      break;
+    case "Chainmail":
+      if (kvpArmour.Chainmail) {
+        Hero1EqpmtSet.changeArmour(arrAmrChain);
+      }
+      break;
+    case "Platemail":
+      if (kvpArmour.Platemail) {
+        Hero1EqpmtSet.changeArmour(arrAmrPltMl);
+      }
+      break;
+    case "FullPlate":
+      if (kvpArmour.FullPlate) {
+        Hero1EqpmtSet.changeArmour(arrAmrFllPlt);
+      }
+      break;
+    default:
+      console.log("Error");
+  }
+  console.log(kvpWeapons);
+  console.log(kvpArmour);
+  fnMngText();
+  return;
+}
+function fnMngText() {
+  let elements = document.getElementsByClassName("EqpmtMngMenuText");
+  elements[0].innerText = `Hero ${hero1.name} currrent equipment: ${hero1WpnSet1.name}, ${hero1WpnSet2R.name}, ${hero1WpnSet2L.name} and ${Hero1EqpmtSet.name}. `;
+  return;
+}
+
 // Start mode
 function fnStartGame() {
   console.log("Start game, start town");
@@ -601,10 +859,6 @@ function fnStartGame() {
   return;
 }
 function fnLoadGame() {
-  let btnToDisableClassName = this.classList;
-  console.log(btnToDisableClassName);
-  const btnToDisable = document.getElementsByClassName(btnToDisableClassName);
-  btnToDisable[0].disabled = true;
   return;
 }
 
@@ -636,6 +890,10 @@ function fnDebugMode() {
   // Reveals all UI with debug button
   boolDebugMode = true;
   let elements = document.getElementsByClassName("StartMenuUI");
+  elements[0].classList.remove("hidden");
+  elements = document.getElementsByClassName("EquipmentBuyMenuUI");
+  elements[0].classList.remove("hidden");
+  elements = document.getElementsByClassName("EquipmentManageMenuUI");
   elements[0].classList.remove("hidden");
   elements = document.getElementsByClassName("TownModeUI");
   elements[0].classList.remove("hidden");

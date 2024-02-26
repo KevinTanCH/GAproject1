@@ -90,6 +90,38 @@ body {
 .ContinueMenuButtonBox {
   display: grid;
 }
+.EquipmentBuyMenuUI {
+  display: grid;
+  justify-items: center;
+  align-items: center;
+  background-color: burlywood;
+}
+.EqpmtBuyBtnBox {
+  display: grid;
+  justify-items: center;
+  align-items: center;
+}
+.EqpmtBuyMenuText {
+  display: grid;
+  justify-items: center;
+  align-items: center;
+}
+.EquipmentManageMenuUI {
+  display: grid;
+  justify-items: center;
+  align-items: center;
+  background-color: burlywood;
+}
+.EqpmtMngBtnBox {
+  display: grid;
+  justify-items: center;
+  align-items: center;
+}
+.EqpmtMngMenuText {
+  display: grid;
+  justify-items: center;
+  align-items: center;
+}
 .StartMenuUI {
   display: grid;
   justify-items: center;
