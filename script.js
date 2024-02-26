@@ -131,27 +131,27 @@ class Monster extends Character {
 // Weapon types here NameCostTypePointsChanceResistCounter
 // Range
 const arrWpnBow = ["Bow", 2, 0, 5, 10, [0, 0, 0], 0];
-const arrWpnWrBow = ["WarBow", 15, 0, 20, 10, [0, 0, 0], 0];
+const arrWpnWrBow = ["WarBow", 10, 0, 20, 10, [0, 0, 0], 0];
 // 2 Hands
-const arrWpnStaff = ["Staff", 0, 2, 5, 1, [0, 0, 0], 1];
-const arrWpnSpear = ["Spear", 2, 0, 5, 15, [0, 0, 0], 2];
-const arrWpnBttlAxe = ["BattletAxe", 10, 1, 15, 10, [0, 0, 0], 2];
-const arrWpnWrHmmr = ["WarHammer", 10, 2, 15, 10, [0, 0, 0], 2];
-const arrWpnGrtSwd = ["GreatSword", 15, 1, 10, 20, [0, 0, 0], 10];
+const arrWpnStaff = ["Stick", 0, 2, 1, 10, [0, 0, 0], 1];
+const arrWpnSpear = ["Spear", 1, 0, 5, 10, [0, 2, 2], 2];
+const arrWpnBttlAxe = ["BattletAxe", 5, 1, 10, 10, [0, 2, 2], 2];
+const arrWpnWrHmmr = ["WarHammer", 5, 2, 8, 10, [0, 2, 2], 2];
+const arrWpnGrtSwd = ["GreatSword", 10, 1, 10, 20, [0, 5, 5], 10];
 // 1 Hand
 const arrWpnFist = ["Fist", 0, 2, 1, 1, [0, 0, 0], 0];
-const arrWpnSword = ["Sword", 3, 1, 10, 10, [0, 10, 10], 2];
-const arrWpnRapier = ["Rapier", 3, 1, 10, 10, [0, 10, 10], 10];
-const arrWpnAxe = ["Axe", 3, 1, 10, 10, [0, 10, 10], 0];
-const arrWpnMace = ["Mace", 3, 1, 10, 10, [0, 10, 10], 10];
-const arrWpnBuckle = ["Buckler", 3, 2, 2, 5, [20, 20, 20], 20];
+const arrWpnSword = ["Sword", 3, 1, 5, 5, [0, 1, 1], 2];
+const arrWpnRapier = ["Rapier", 3, 0, 4, 10, [0, 2, 1], 10];
+const arrWpnAxe = ["Axe", 1, 1, 5, 4, [0, 1, 1], 0];
+const arrWpnMace = ["Mace", 1, 2, 6, 4, [0, 1, 1], 0];
+const arrWpnBuckle = ["Buckler", 2, 2, 2, 5, [20, 20, 20], 20];
 const arrWpnShield = ["Shield", 3, 2, 2, 5, [20, 20, 20], 20];
 // Equipment types here NameCostResist
 const arrAmrShirt = ["Shirt", 0, [0, 0, 0]];
-const arrAmrGambe = ["Gambeson", 10, [5, 5, 5]];
-const arrAmrChain = ["Chainmail", 25, [5, 10, 5]];
-const arrAmrPltMl = ["Platemail", 30, [10, 15, 5]];
-const arrAmrFllPlt = ["FullPlate", 75, [20, 20, 20]];
+const arrAmrGambe = ["Gambeson", 5, [5, 5, 5]];
+const arrAmrChain = ["Chainmail", 10, [5, 10, 5]];
+const arrAmrPltMl = ["Platemail", 15, [10, 15, 10]];
+const arrAmrFllPlt = ["FullPlate", 25, [20, 20, 20]];
 // Monster types here HpMaxhpCharNameSkillTypeResist
 const arrMonstSlime = [25, 25, 1, "Slime", 1, 2, [0, 0, 0]];
 const arrMonstSkele = [50, 50, 2, "Skeleton", 1, 2, [10, 0, 0]];
@@ -252,7 +252,7 @@ document
   .addEventListener("click", fnUIEqpmtMngBack);
 // StartMenuButtons
 document.querySelector(".BtnStartGame").addEventListener("click", fnStartGame);
-document.querySelector(".BtnLoadGame").addEventListener("click", fnLoadGame);
+// document.querySelector(".BtnLoadGame").addEventListener("click", fnLoadGame);
 document.querySelector(".BtnDebugGame").addEventListener("click", fnDebugMode);
 // GameOverButtons
 // document.querySelector(".BtnRestart").addEventListener("click", fnStartGame);
@@ -283,6 +283,9 @@ function fnUIContToTown() {
   fnShowElements("TownModeUI");
 }
 function fnUIGameOver() {
+  let elements = document.getElementsByClassName("GameOverConsole");
+  let damageTypeText = fnDamageTypeText(monster1.damageType);
+  elements[0].innerText = `${monster1.name} attacks ${hero1.name} dealing ${intMonsterTurnBaseDamage} ${damageTypeText} damage. Game Over. Restart and try again?`;
   fnHideElements("CombatModeUI");
   fnShowElements("GameOverUI");
 }
@@ -426,7 +429,7 @@ function fnCheckCombatEnd() {
   if (monster1.hPoints < 1) {
     boolGameContinue = true;
     boolCombatEnd = false;
-    intCoins = intCoins + intDangerLevel + monster1.charLevel;
+    intCoins = intCoins + 2 * intDangerLevel + monster1.charLevel;
     console.log("More Coins: " + intCoins);
     fnUICmbtToCont();
     let whichWeapon = fnCheckHeroWeaponSet();
@@ -448,12 +451,14 @@ function fnCheckCombatEnd() {
 function fnPotionHeal() {
   console.log("Potion Heal");
   if (kvpConsumables.potsHP > 0) {
+    kvpConsumables.potsHP--;
     hero1.heal(50);
     console.log(hero1);
     fnMonsterTurn();
     return;
   } else {
     console.log("No more potions");
+    fnCmbtHeroText("No more potions");
   }
   return;
 }
@@ -461,7 +466,7 @@ function fnRunaway() {
   if (Math.random() > 0.5) {
     console.log("Tactical retreat success");
     fnContText("Tactical retreat success");
-    fnTownMode();
+    fnUICmbtToCont();
     return;
   } else {
     console.log("Tactical retreat failed");
@@ -636,103 +641,118 @@ function fnTownText() {
 function fnBuyEqpmt() {
   let btnToDisableClassName = this.classList;
   const btnToDisable = document.getElementsByClassName(btnToDisableClassName);
-  btnToDisable[0].disabled = true;
   console.log(btnToDisableClassName[1]);
   switch (btnToDisableClassName[1]) {
     case "Bow":
       if (intCoins > arrWpnBow[1]) {
         kvpWeapons.Bow++;
         intCoins = intCoins - arrWpnBow[1];
+        btnToDisable[0].disabled = true;
       }
       break;
     case "WarBow":
       if (intCoins > arrWpnWrBow[1]) {
         kvpWeapons.WarBow++;
         intCoins = intCoins - arrWpnWrBow[1];
+        btnToDisable[0].disabled = true;
       }
       break;
     case "Spear":
       if (intCoins > arrWpnSpear[1]) {
         kvpWeapons.Spear++;
         intCoins = intCoins - arrWpnSpear[1];
+        btnToDisable[0].disabled = true;
       }
       break;
     case "BattletAxe":
       if (intCoins > arrWpnBttlAxe[1]) {
         kvpWeapons.BattletAxe++;
         intCoins = intCoins - arrWpnBttlAxe[1];
+        btnToDisable[0].disabled = true;
       }
       break;
     case "WarHammer":
       if (intCoins > arrWpnWrHmmr[1]) {
         kvpWeapons.WarHammer++;
         intCoins = intCoins - arrWpnWrHmmr[1];
+        btnToDisable[0].disabled = true;
       }
       break;
     case "GreatSword":
       if (intCoins > arrWpnGrtSwd[1]) {
         kvpWeapons.GreatSword++;
         intCoins = intCoins - arrWpnGrtSwd[1];
+        btnToDisable[0].disabled = true;
       }
       break;
     case "Sword":
       if (intCoins > arrWpnSword[1]) {
         kvpWeapons.Sword++;
         intCoins = intCoins - arrWpnSword[1];
+        btnToDisable[0].disabled = true;
       }
       break;
     case "Rapier":
       if (intCoins > arrWpnRapier[1]) {
         kvpWeapons.Rapier++;
         intCoins = intCoins - arrWpnRapier[1];
+        btnToDisable[0].disabled = true;
       }
       break;
     case "Axe":
       if (intCoins > arrWpnAxe[1]) {
         kvpWeapons.Axe++;
         intCoins = intCoins - arrWpnAxe[1];
+        btnToDisable[0].disabled = true;
       }
       break;
     case "Mace":
       if (intCoins > arrWpnMace[1]) {
         kvpWeapons.Mace++;
         intCoins = intCoins - arrWpnMace[1];
+        btnToDisable[0].disabled = true;
       }
       break;
     case "Buckler":
       if (intCoins > arrWpnBuckle[1]) {
         kvpWeapons.Buckler++;
         intCoins = intCoins - arrWpnBuckle[1];
+        btnToDisable[0].disabled = true;
       }
       break;
     case "Shield":
       if (intCoins > arrWpnShield[1]) {
         kvpWeapons.Shield++;
         intCoins = intCoins - arrWpnShield[1];
+        btnToDisable[0].disabled = true;
       }
       break;
     case "Gambeson":
       if (intCoins > arrAmrGambe[1]) {
         kvpArmour.Gambeson++;
         intCoins = intCoins - arrAmrGambe[1];
+        btnToDisable[0].disabled = true;
       }
       break;
     case "Chainmail":
       if (intCoins > arrAmrChain[1]) {
         kvpArmour.Chainmail++;
         intCoins = intCoins - arrAmrChain[1];
+        btnToDisable[0].disabled = true;
       }
       break;
     case "Platemail":
       if (intCoins > arrAmrPltMl[1]) {
         kvpArmour.Platemail++;
         intCoins = intCoins - arrAmrPltMl[1];
+        btnToDisable[0].disabled = true;
       }
       break;
     case "FullPlate":
       if (intCoins > arrAmrFllPlt[1]) {
         kvpArmour.FullPlate++;
         intCoins = intCoins - arrAmrFllPlt[1];
+        btnToDisable[0].disabled = true;
       }
       break;
     default:
@@ -844,7 +864,7 @@ function fnMngEqpmt() {
 }
 function fnMngText() {
   let elements = document.getElementsByClassName("EqpmtMngMenuText");
-  elements[0].innerText = `Hero ${hero1.name} currrent equipment: ${hero1WpnSet1.name}, ${hero1WpnSet2R.name}, ${hero1WpnSet2L.name} and ${Hero1EqpmtSet.name}. `;
+  elements[0].innerText = `Hero ${hero1.name} current equipment: ${hero1WpnSet1.name}, ${hero1WpnSet2R.name}, ${hero1WpnSet2L.name} and ${Hero1EqpmtSet.name}. `;
   return;
 }
 
@@ -867,7 +887,7 @@ function initialize() {
   console.log("Load Game");
   console.log(hero1);
   console.log(monster1);
-  fnStartText();
+  // fnStartText();
   fnUpdateCombatGridHP();
   console.log("Game Loaded");
   fnShowElements("StartMenuUI");

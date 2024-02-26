@@ -1,6 +1,7 @@
 body {
   background-color: grey;
   margin: auto;
+  font-size: 2vw;
 }
 .CombadModeUI {
   display: grid;

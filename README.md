@@ -1,22 +1,21 @@
-# GAproject1 (TB RPG)
+# GAproject1 (Turn-Based RPG)
 
-GA Project 1
+GA Project 1 Turn-Based RPG by Kevin
 
-## Your game's title
+## Turn-Based RPG
 
-This is a turn based RPG game.
-Background info of the game is a nice touch.
+This is a turn-based RPG game. I wanted to make a simple turn-based RPG game using Javascript. As of now it is mainly text based. Items in the game are inspired by common game items and historical items.
 
-Screenshot(s): Images of your actual game.
+Screenshot(s): Here
 
 ### Technologies Used:
 
-List of the technologies used, e.g., JavaScript, HTML, CSS...
+JavaScript, HTML, CSS
 
-### Getting Started:
+### How to Play:
 
-In this section include any instructions you deem important.
+Open the HTML file and run the game. Click on start game to start.
 
-### Next Steps:
+### Planned future enhancements (icebox items).
 
-Planned future enhancements (icebox items).
+Able to save and load file.
