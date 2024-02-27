@@ -316,7 +316,7 @@ function fnSpawnMonster() {
   if (intDangerLevel < 10) {
     monster1.changeMonster(arrMonstAllList[intDangerLevel - 1]);
   } else {
-    monster1.changeMonster(arrMonstCyclo);
+    monster1.changeMonster(arrMonstColo);
   }
   monster1.heal(monster1.maxHP);
   return;
@@ -348,6 +348,9 @@ function fnMonsterTurn() {
   intMonsterTurnBaseDamage =
     intMonsterTurnBaseDamage - Hero1EqpmtSet.damageResist[monster1.damageType];
   console.log(intMonsterTurnBaseDamage);
+  if (intMonsterTurnBaseDamage < 0) {
+    intMonsterTurnBaseDamage = 0;
+  }
   hero1.damage(intMonsterTurnBaseDamage);
   console.log(hero1);
   console.log(monster1);
@@ -414,6 +417,9 @@ function fnHeroTurn(Num) {
   intHeroTurnBaseDamage =
     intHeroTurnBaseDamage - monster1.damageResist[HeroAttackWeapon.damageType];
   monster1.damage(intHeroTurnBaseDamage);
+  if (intHeroTurnBaseDamage < 0) {
+    intHeroTurnBaseDamage = 0;
+  }
   console.log(hero1);
   console.log(monster1);
   fnCmbtHeroText();
