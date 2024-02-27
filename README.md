@@ -8,7 +8,10 @@ This is a turn-based RPG game. I wanted to make a simple turn-based RPG game usi
 
 ### Screenshot(s):
 
-![Alt text](https://.com/boo.svg "Hover text")
+**_Battle Picture_**
+![Alt text](./READMEimages/BattlePic.png "Battle Picture")
+**_Shop Picture_**
+![Alt text](./READMEimages/ShopPic.png "Shop Picture")
 
 ### Technologies Used:
 
@@ -23,17 +26,21 @@ JavaScript, HTML, CSS
 ### How to Play:
 
 Open the HTML file and run the game. Click on start game to start.
+Each weapon have different damage types (pierce, hack and blunt) and effects. Each armour has different damage resistance. There are different monsters with different effects too
 
 ### Planned future enhancements (icebox items).
 
 - Able to save and load file.
 - Game over restart button
 - Character edit
+- More Charaters and more monsters pieces
 - Different skills with different effects
+- More set of monsters
 - Loot Items
 - Loot list
 - Different consumables
-- Square tile or Hesagonal town
+- Square tile or Hexagonal town
 - Movement mechanics
-- AI movement
+- AI movement and smart AI
+- animtation and graphics
 - And more...!
